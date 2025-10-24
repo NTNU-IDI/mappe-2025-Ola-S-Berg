@@ -73,5 +73,17 @@ public class DiaryEntry {
     }
     return trimmedTitle;
   }
-  
+
+  private String validateContent(String content) {
+    if (content == null || content.trim().isEmpty()) {
+      throw new IllegalArgumentException("Content cannot be null or empty");
+    }
+
+    String trimmedContent = content.trim();
+    if (trimmedContent.length() > MAX_CONTENT_LENGTH) {
+      throw new IllegalArgumentException(String.format("Content must be between %d and %d symbols",
+          MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH));
+    }
+    return trimmedContent;
+  }
 }
