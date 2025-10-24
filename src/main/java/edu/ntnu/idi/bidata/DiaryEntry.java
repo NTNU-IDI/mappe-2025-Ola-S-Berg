@@ -41,9 +41,9 @@ public class DiaryEntry {
     this.id = id;
     this.author = validateAuthor(author);
     this.timestamp = timestamp;
-    this.title = null;
-    this.content = null;
-    this.category = null;
+    this.title = validateTitle(title);
+    this.content = validateContent(content);
+    this.category = validateCategory(category);
   }
 
   private String validateAuthor(String author) {
@@ -85,5 +85,12 @@ public class DiaryEntry {
           MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH));
     }
     return trimmedContent;
+  }
+
+  private String validateCategory(String category) {
+    if (category == null || category.trim().isEmpty()) {
+      throw new IllegalArgumentException("Category cannot be null or empty");
+    }
+    return category.trim();
   }
 }
