@@ -39,10 +39,26 @@ public class DiaryEntry {
     }
 
     this.id = id;
-    this.author = null;
+    this.author = validateAuthor(author);
     this.timestamp = timestamp;
     this.title = null;
     this.content = null;
     this.category = null;
   }
+
+  private String validateAuthor(String author) {
+    if (author == null || author.trim().isEmpty()) {
+      throw new IllegalArgumentException("Author cannot be null or empty");
+    }
+
+    String trimmedAuthor = author.trim();
+    if (trimmedAuthor.length() > MAX_AUTHOR_LENGTH) {
+      throw new IllegalArgumentException(
+          String.format("Author name must be between %d and %d symbols",
+              MIN_AUTHOR_LENGTH, MAX_AUTHOR_LENGTH)
+      );
+    }
+    return trimmedAuthor;
+  }
+
 }
