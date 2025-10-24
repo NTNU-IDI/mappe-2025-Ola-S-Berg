@@ -61,4 +61,17 @@ public class DiaryEntry {
     return trimmedAuthor;
   }
 
+  private String validateTitle(String title) {
+    if (title == null || title.trim().isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be null or empty");
+    }
+
+    String trimmedTitle = title.trim();
+    if (trimmedTitle.length() > MAX_TITLE_LENGTH) {
+      throw new IllegalArgumentException(String.format("Title must be between %d and %d symbols",
+          MAX_TITLE_LENGTH, MIN_TITLE_LENGTH));
+    }
+    return trimmedTitle;
+  }
+  
 }
