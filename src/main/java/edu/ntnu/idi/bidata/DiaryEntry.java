@@ -23,12 +23,8 @@ public class DiaryEntry {
   private final String author;
   private final LocalDateTime timestamp;
   private final String title;
-  private final String content;
-  private final String category;
-
-  public DiaryEntry(int id, String author, String title, String content, String category) {
-    this(id, author, LocalDateTime.now(), title, content, category);
-  }
+  private String content;
+  private String category;
 
   public DiaryEntry(int id, String author, LocalDateTime timestamp,
       String title, String content, String category) {
@@ -120,7 +116,15 @@ public class DiaryEntry {
     return content;
   }
 
+  public void setContent(String content) {
+    this.content = validateContent(content);
+  }
+
   public String getCategory() {
     return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = validateCategory(category);
   }
 }
