@@ -1,6 +1,7 @@
 package edu.ntnu.idi.bidata;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * <h1>Diary Entry</h1>
@@ -92,5 +93,34 @@ public class DiaryEntry {
       throw new IllegalArgumentException("Category cannot be null or empty");
     }
     return category.trim();
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getAuthor() {
+    return author;
+  }
+
+  public LocalDateTime getTimestamp() {
+    return timestamp;
+  }
+
+  public String getFormattedTimestamp() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    return timestamp.format(formatter);
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public String getCategory() {
+    return category;
   }
 }
