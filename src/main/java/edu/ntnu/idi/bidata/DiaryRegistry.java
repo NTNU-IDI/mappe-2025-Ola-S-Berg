@@ -27,5 +27,35 @@ public class DiaryRegistry {
     return entry;
   }
 
-  
+  public DiaryEntry findEntryById(int id) {
+    return entries.stream().filter(entry ->
+        entry.getId() == id).findFirst().orElse(null);
+  }
+
+  public boolean deleteEntry(DiaryEntry entry) {
+    if (entry == null) {
+      throw new IllegalArgumentException("Diary entry cannot be null");
+    }
+    return entries.remove(entry);
+  }
+
+  public boolean deleteEntryById(int id) {
+    DiaryEntry entry = findEntryById(id);
+    if (entry != null) {
+      return entries.remove(entry);
+    }
+    return false;
+  }
+
+  public int getNumberOfEntries() {
+    return entries.size();
+  }
+
+  public boolean isEmpty() {
+    return entries.isEmpty();
+  }
+
+  public int getNextId() {
+    return nextId;
+  }
 }
