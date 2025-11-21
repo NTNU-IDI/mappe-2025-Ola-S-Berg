@@ -83,4 +83,28 @@ public class AuthorRegistry {
     }
     return results;
   }
+
+  /**
+   * Deletes an author from the registry.
+   *
+   * @param author The author to delete.
+   * @return True if the author was found and deleted, false otherwise.
+   * @throws IllegalArgumentException If author is null.
+   */
+  public boolean deleteAuthor(Author author) {
+    if (author == null) {
+      throw new IllegalArgumentException("Author cannot be null");
+    }
+    return authors.remove(author.getId()) != null;
+  }
+
+  /**
+   * Deletes an author by their ID.
+   *
+   * @param id The ID of the author to delete.
+   * @return True if the author was found and deleted, false otherwise.
+   */
+  public boolean deleteAuthorById(int id) {
+    return authors.remove(id) != null;
+  }
 }
