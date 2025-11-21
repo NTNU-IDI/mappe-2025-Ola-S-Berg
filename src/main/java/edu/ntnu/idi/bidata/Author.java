@@ -10,8 +10,8 @@ public class Author {
   private static final int MIN_NAME_LENGTH = 1;
   private static final int MAX_NAME_LENGTH = 50;
 
-  private int id;
-  private String name;
+  private final int id;
+  private final String name;
 
   /**
    * Constructs a new author with the specified ID and name.
@@ -29,5 +29,40 @@ public class Author {
     this.name = name;
   }
 
-  
+  /**
+   * Validates and trims the author name.
+   *
+   * @param name The name to validate.
+   * @return The trimmed name.
+   * @throws IllegalArgumentException If the name is null or longer than the maximum length.
+   */
+  private String validateName(String name) {
+    if (name == null || name.trim().isEmpty()) {
+      throw new IllegalArgumentException("Name must not be null or empty.");
+    }
+
+    String trimmedName = name.trim();
+    if (trimmedName.length() > MAX_NAME_LENGTH) {
+      throw new IllegalArgumentException("Name must not be longer than " + MAX_NAME_LENGTH + ".");
+    }
+    return trimmedName;
+  }
+
+  /**
+   * Gets the ID of the author.
+   *
+   * @return The author ID.
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * Gets the name of the author.
+   *
+   * @return The author name.
+   */
+  public String getName() {
+    return name;
+  }
 }
