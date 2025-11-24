@@ -20,42 +20,30 @@ public class DiaryEntry {
   private static final int MAX_CONTENT_LENGTH = 5000;
 
   private final int id;
-  private final String author;
+  private final Author author;
   private final LocalDateTime timestamp;
   private final String title;
   private String content;
   private String category;
 
-  public DiaryEntry(int id, String author, LocalDateTime timestamp,
+  public DiaryEntry(int id, Author author, LocalDateTime timestamp,
       String title, String content, String category) {
     if (id <= 0) {
       throw new IllegalArgumentException("ID must be a positive number");
+    }
+    if (author == null) {
+      throw new IllegalArgumentException("Author must not be null");
     }
     if (timestamp == null) {
       throw new IllegalArgumentException("Timestamp cannot be null");
     }
 
     this.id = id;
-    this.author = validateAuthor(author);
+    this.author = author;
     this.timestamp = timestamp;
     this.title = validateTitle(title);
     this.content = validateContent(content);
     this.category = validateCategory(category);
-  }
-
-  private String validateAuthor(String author) {
-    if (author == null || author.trim().isEmpty()) {
-      throw new IllegalArgumentException("Author cannot be null or empty");
-    }
-
-    String trimmedAuthor = author.trim();
-    if (trimmedAuthor.length() > MAX_AUTHOR_LENGTH) {
-      throw new IllegalArgumentException(
-          String.format("Author name must be between %d and %d symbols",
-              MIN_AUTHOR_LENGTH, MAX_AUTHOR_LENGTH)
-      );
-    }
-    return trimmedAuthor;
   }
 
   private String validateTitle(String title) {
@@ -95,10 +83,14 @@ public class DiaryEntry {
     return id;
   }
 
-  public String getAuthor() {
+  public Author getAuthor() {
     return author;
   }
 
+  public String getAuthorName() {
+    return author.getName();
+  }
+  
   public LocalDateTime getTimestamp() {
     return timestamp;
   }
