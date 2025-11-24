@@ -47,8 +47,8 @@ public class DiaryRegistry {
    * @param category The category of the entry.
    * @return The created diary.
    */
-  public DiaryEntry createAndAddEntry(Author author, String title,
-      String content, String category) {
+  public DiaryEntry createAndAddEntry(Author author, java.time.LocalDateTime timeStamp,
+      String title, String content, String category) {
     DiaryEntry entry = new DiaryEntry(nextId++, author, java.time.LocalDateTime.now(),
         title, content, category);
     addEntry(entry);
