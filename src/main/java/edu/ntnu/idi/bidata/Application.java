@@ -99,6 +99,11 @@ public class Application {
     }
   }
 
+  /**
+   * Prints all diary entries in the list.
+   *
+   * @param entries The list of entries to print.
+   */
   private void printAllEntries(List<DiaryEntry> entries) {
     if (entries.isEmpty()) {
       System.out.println("No diary entries");
@@ -111,6 +116,11 @@ public class Application {
     }
   }
 
+  /**
+   * Prints a single diary entry with formatting.
+   *
+   * @param entry The entry to print.
+   */
   private void printEntry(DiaryEntry entry) {
     System.out.println("┌" + "─".repeat(70) + "┐");
     System.out.println("│ ID: " + entry.getId()
