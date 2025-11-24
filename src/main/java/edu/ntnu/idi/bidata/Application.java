@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -48,6 +49,47 @@ public class Application {
 
     System.out.println("Created " + authorRegistry.getAllAuthors().size() + " authors");
     printAllAuthors();
+
+    DiaryEntry entry1 = new DiaryEntry(diaryRegistry.getNextId(), author1, LocalDateTime.now(),
+        "My first lecture",
+        "Today i attended my first lecture in Trondheim",
+        "Studies");
+    diaryRegistry.addEntry(entry1);
+
+    DiaryEntry entry2 = new DiaryEntry(diaryRegistry.getNextId(), author2,
+        LocalDateTime.now().minusDays(1),
+        "Walk in the park",
+        "Took a walk in the park today, the weather was great!",
+        "leisure");
+    diaryRegistry.addEntry(entry2);
+
+    DiaryEntry entry3 = new DiaryEntry(diaryRegistry.getNextId(), author3,
+        LocalDateTime.now().minusDays(2),
+        "Great workout today",
+        "Had a great workout today at the gym. Chest day.",
+        "Gym");
+    diaryRegistry.addEntry(entry3);
+
+    DiaryEntry entry4 = new DiaryEntry(diaryRegistry.getNextId(), author3,
+        LocalDateTime.now().minusDays(3),
+        "Awful workout today",
+        "Today's legs workout was just awful, hope tomorrow's chest workout goes better.",
+        "Gym");
+    diaryRegistry.addEntry(entry4);
+
+    System.out.println("Created " + diaryRegistry.getNumberOfEntries() + " entries");
+
+    testDiaryFunctionality();
+  }
+
+  /**
+   * Tests diary registry functionality.
+   */
+  private void testDiaryFunctionality() {
+    System.out.println("TESTING DIARY FUNCTIONALITY");
+    System.out.println("\n All Diary entries (Sorted by newest first)");
+
+    printAllEntries(diaryRegistry.getAllEntriesSortedDescending());
   }
 
   /**
@@ -58,5 +100,27 @@ public class Application {
     for (Author author : authors) {
       System.out.println(author);
     }
+  }
+
+  private void printAllEntries(List<DiaryEntry> entries) {
+    if (entries.isEmpty()) {
+      System.out.println("No diary entries");
+      return;
+    }
+
+    for (DiaryEntry entry : entries) {
+      printEntry(entry);
+      System.out.println();
+    }
+  }
+
+  private void printEntry(DiaryEntry entry) {
+    System.out.println("┌" + "─".repeat(70) + "┐");
+    System.out.println("│ ID: " + entry.getId()
+        + " │ Category: " + entry.getCategory());
+    System.out.println("│ Title: " + entry.getTitle());
+    System.out.println("│ Author: " + entry.getAuthor().getName()
+        + " │ Date: " + entry.getFormattedTimestamp());
+    System.out.println("├" + "─".repeat(70) + "┤");
   }
 }

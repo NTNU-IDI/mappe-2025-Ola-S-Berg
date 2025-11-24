@@ -2,6 +2,7 @@ package edu.ntnu.idi.bidata;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +107,26 @@ public class DiaryRegistry {
       return entries.remove(entry);
     }
     return false;
+  }
+
+  /**
+   * Returns all diary entries sorted by oldest entries first.
+   *
+   * @return A sorted list of all diary entries.
+   */
+  public List<DiaryEntry> getAllEntriesSortedAscending() {
+    return entries.stream().sorted(
+        Comparator.comparing(DiaryEntry::getTimestamp)).collect(Collectors.toList());
+  }
+
+  /**
+   * Returns all diary entries sorted by newest entries first.
+   *
+   * @return A sorted list of all diary entries.
+   */
+  public List<DiaryEntry> getAllEntriesSortedDescending() {
+    return entries.stream().sorted(
+        Comparator.comparing(DiaryEntry::getTimestamp).reversed()).collect(Collectors.toList());
   }
 
   /**
