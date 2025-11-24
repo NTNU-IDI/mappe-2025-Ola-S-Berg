@@ -107,4 +107,13 @@ public class AuthorRegistry {
   public boolean deleteAuthorById(int id) {
     return authors.remove(id) != null;
   }
+
+  /**
+   * Returns all authors in the registry.
+   *
+   * @return A list of all authors.
+   */
+  public List<Author> getAllAuthors() {
+    return new ArrayList<>(authors.values());
+  }
 }

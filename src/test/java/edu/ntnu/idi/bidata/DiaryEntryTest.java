@@ -17,7 +17,7 @@ public class DiaryEntryTest {
 
   @Test
   void testCreateValidDiaryEntry() {
-    DiaryEntry entry = new DiaryEntry(1, "Ola Syrstad Berg", testTime, "Test day",
+    DiaryEntry entry = new DiaryEntry(1, "Ola Nordmann", testTime, "Test day",
         "Today i tested class DiaryEntry", "Tests");
 
     assertEquals(1, entry.getId());
