@@ -19,7 +19,7 @@ public class AuthorRegistry {
    */
   public AuthorRegistry() {
     this.authors = new HashMap<>();
-    this.nextId = 0;
+    this.nextId = 1;
   }
 
   /**

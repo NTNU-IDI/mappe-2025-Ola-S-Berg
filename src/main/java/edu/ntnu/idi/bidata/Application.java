@@ -1,5 +1,7 @@
 package edu.ntnu.idi.bidata;
 
+import java.util.List;
+
 /**
  * <h1>Application.</h1>
  *
@@ -38,5 +40,23 @@ public class Application {
    */
   public void start() {
     System.out.println("STARTING DIARY APPLICATION");
+    System.out.println("CREATING AUTHORS");
+
+    Author author1 = authorRegistry.createAndAddAuthor("Ola Nordmann");
+    Author author2 = authorRegistry.createAndAddAuthor("Kari Nordmann");
+    Author author3 = authorRegistry.createAndAddAuthor("Thoralf Nordmann");
+
+    System.out.println("Created " + authorRegistry.getAllAuthors().size() + " authors");
+    printAllAuthors();
+  }
+
+  /**
+   * Prints a list of all authors in the author registry.
+   */
+  private void printAllAuthors() {
+    List<Author> authors = authorRegistry.getAllAuthors();
+    for (Author author : authors) {
+      System.out.println(author);
+    }
   }
 }
