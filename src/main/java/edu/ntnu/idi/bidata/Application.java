@@ -105,6 +105,10 @@ public class Application {
               entry.getAuthor().getId() == kari.getId()).toList();
       printAllEntries(kariEntries);
     }
+
+    System.out.println("\nSearching for entries in category 'Gym'");
+    List<DiaryEntry> gymEntries = diaryRegistry.findEntriesByCategory("Gym");
+    printAllEntries(gymEntries);
   }
 
   /**

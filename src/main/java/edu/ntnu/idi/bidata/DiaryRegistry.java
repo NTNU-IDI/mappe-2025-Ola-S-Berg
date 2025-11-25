@@ -82,6 +82,22 @@ public class DiaryRegistry {
   }
 
   /**
+   * Searches for entries by category.
+   *
+   * @param category The category to search for.
+   * @return A list of entries in the specified category.
+   * @throws IllegalArgumentException If category is null or empty.
+   */
+  public List<DiaryEntry> findEntriesByCategory(String category) {
+    if (category == null || category.trim().isEmpty()) {
+      throw new IllegalArgumentException("Category cannot be null or empty");
+    }
+    String searchCategory = category.trim();
+    return entries.stream().filter(entry ->
+        entry.getCategory().equalsIgnoreCase(searchCategory)).collect(Collectors.toList());
+  }
+
+  /**
    * Deletes a diary entry from the registry.
    *
    * @param entry The entry to delete.
