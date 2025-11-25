@@ -78,6 +78,7 @@ public class Application {
     System.out.println("Created " + diaryRegistry.getNumberOfEntries() + " entries");
 
     testDiaryFunctionality();
+    testAuthorFunctionality();
   }
 
   /**
@@ -109,6 +110,27 @@ public class Application {
     System.out.println("\nSearching for entries in category 'Gym'");
     List<DiaryEntry> gymEntries = diaryRegistry.findEntriesByCategory("Gym");
     printAllEntries(gymEntries);
+
+    System.out.println("\nTotal diary entries: " + diaryRegistry.getNumberOfEntries());
+  }
+
+  /**
+   * Tests author functionality.
+   */
+  private void testAuthorFunctionality() {
+    System.out.println("TESTING AUTHOR FUNCTIONALITY");
+
+    System.out.println("\nFinding author by name 'Ola'");
+    List<Author> olaAuthors = authorRegistry.findAuthorByName("Ola");
+    for (Author author : olaAuthors) {
+      System.out.println("Found: " + author);
+    }
+
+    System.out.println("\nFinding author with ID '3'");
+    Author author3 = authorRegistry.findAuthorById(3);
+    System.out.println("Found: " + author3);
+
+    System.out.println("\nTotal authors: " + authorRegistry.getAllAuthors().size());
   }
 
   /**
