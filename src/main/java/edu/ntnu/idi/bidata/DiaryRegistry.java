@@ -49,7 +49,7 @@ public class DiaryRegistry {
    */
   public DiaryEntry createAndAddEntry(Author author, java.time.LocalDateTime timeStamp,
       String title, String content, String category) {
-    DiaryEntry entry = new DiaryEntry(nextId++, author, java.time.LocalDateTime.now(),
+    DiaryEntry entry = new DiaryEntry(nextId++, author, timeStamp,
         title, content, category);
     addEntry(entry);
     return entry;

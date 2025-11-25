@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -84,9 +85,26 @@ public class Application {
    */
   private void testDiaryFunctionality() {
     System.out.println("TESTING DIARY FUNCTIONALITY");
-    System.out.println("\n All Diary entries (Sorted by newest first)");
+    System.out.println("\nAll Diary entries (Sorted by newest first)");
 
     printAllEntries(diaryRegistry.getAllEntriesSortedDescending());
+
+    System.out.println("\nEntries from today:");
+    List<DiaryEntry> todayEntries = diaryRegistry.findEntriesByDate(LocalDate.now());
+    if (todayEntries.isEmpty()) {
+      System.out.println("No diary entries found for today");
+    } else {
+      printAllEntries(todayEntries);
+    }
+
+    System.out.println("\nSearching for entries made by Kari Nordmann");
+    Author kari = authorRegistry.findAuthorByExactName("Kari Nordmann");
+    if (kari != null) {
+      List<DiaryEntry> kariEntries = diaryRegistry
+          .getAllEntriesSortedDescending().stream().filter(entry ->
+              entry.getAuthor().getId() == kari.getId()).toList();
+      printAllEntries(kariEntries);
+    }
   }
 
   /**
@@ -140,7 +158,7 @@ public class Application {
         while (line.length() < maxLineLength + 2) {
           line.append(" ");
         }
-        line.append("│");
+        line.append(" │");
         System.out.println(line);
         line = new StringBuilder("│ " + word + " ");
       } else {
@@ -152,7 +170,7 @@ public class Application {
       while (line.length() < maxLineLength + 2) {
         line.append(" ");
       }
-      line.append("│");
+      line.append(" │");
       System.out.println(line);
     }
 
