@@ -2,6 +2,10 @@ package edu.ntnu.idi.bidata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.ntnu.idi.bidata.author.Author;
+import edu.ntnu.idi.bidata.author.AuthorRegistry;
+import edu.ntnu.idi.bidata.diary.DiaryEntry;
+import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

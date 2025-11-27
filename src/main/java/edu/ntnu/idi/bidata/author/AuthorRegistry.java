@@ -1,4 +1,4 @@
-package edu.ntnu.idi.bidata;
+package edu.ntnu.idi.bidata.author;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,10 +33,10 @@ public class AuthorRegistry {
     if (author == null) {
       throw new IllegalArgumentException("Author cannot be null");
     }
-    if (this.authors.containsKey(author.getId())) {
-      throw new IllegalArgumentException("Author with ID " + author.getId() + " already exists");
+    if (this.authors.containsKey(author.id())) {
+      throw new IllegalArgumentException("Author with ID " + author.id() + " already exists");
     }
-    authors.put(author.getId(), author);
+    authors.put(author.id(), author);
   }
 
   /**
@@ -77,7 +77,7 @@ public class AuthorRegistry {
     List<Author> results = new ArrayList<>();
 
     for (Author author : authors.values()) {
-      if (author.getName().toLowerCase().contains(searchName)) {
+      if (author.name().toLowerCase().contains(searchName)) {
         results.add(author);
       }
     }
@@ -99,7 +99,7 @@ public class AuthorRegistry {
     String searchName = name.trim();
 
     for (Author author : authors.values()) {
-      if (author.getName().equals(searchName)) {
+      if (author.name().equals(searchName)) {
         return author;
       }
     }
@@ -117,7 +117,7 @@ public class AuthorRegistry {
     if (author == null) {
       throw new IllegalArgumentException("Author cannot be null");
     }
-    return authors.remove(author.getId()) != null;
+    return authors.remove(author.id()) != null;
   }
 
   /**

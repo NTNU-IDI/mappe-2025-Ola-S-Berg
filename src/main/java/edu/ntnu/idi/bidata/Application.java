@@ -1,5 +1,9 @@
 package edu.ntnu.idi.bidata;
 
+import edu.ntnu.idi.bidata.author.Author;
+import edu.ntnu.idi.bidata.author.AuthorRegistry;
+import edu.ntnu.idi.bidata.diary.DiaryEntry;
+import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -103,7 +107,7 @@ public class Application {
     if (kari != null) {
       List<DiaryEntry> kariEntries = diaryRegistry
           .getAllEntriesSortedDescending().stream().filter(entry ->
-              entry.getAuthor().getId() == kari.getId()).toList();
+              entry.getAuthor().id() == kari.id()).toList();
       printAllEntries(kariEntries);
     }
 
@@ -170,7 +174,7 @@ public class Application {
     System.out.println("│ ID: " + entry.getId()
         + " │ Category: " + entry.getCategory());
     System.out.println("│ Title: " + entry.getTitle());
-    System.out.println("│ Author: " + entry.getAuthor().getName()
+    System.out.println("│ Author: " + entry.getAuthor().name()
         + " │ Date: " + entry.getFormattedTimestamp());
     System.out.println("├" + "─".repeat(70) + "┤");
 

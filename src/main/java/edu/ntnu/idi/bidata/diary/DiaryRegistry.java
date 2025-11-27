@@ -1,5 +1,6 @@
-package edu.ntnu.idi.bidata;
+package edu.ntnu.idi.bidata.diary;
 
+import edu.ntnu.idi.bidata.author.Author;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;

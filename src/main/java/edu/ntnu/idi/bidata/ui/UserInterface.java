@@ -1,5 +1,7 @@
-package edu.ntnu.idi.bidata;
+package edu.ntnu.idi.bidata.ui;
 
+import edu.ntnu.idi.bidata.author.AuthorRegistry;
+import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import java.util.Scanner;
 
 /**

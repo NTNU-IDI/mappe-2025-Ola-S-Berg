@@ -1,5 +1,6 @@
-package edu.ntnu.idi.bidata;
+package edu.ntnu.idi.bidata.diary;
 
+import edu.ntnu.idi.bidata.author.Author;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -131,7 +132,7 @@ public class DiaryEntry {
    * @return The name of the author.
    */
   public String getAuthorName() {
-    return author.getName();
+    return author.name();
   }
 
   /**
