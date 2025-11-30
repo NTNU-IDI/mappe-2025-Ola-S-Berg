@@ -7,7 +7,6 @@ package edu.ntnu.idi.bidata.author;
  */
 public record Author(int id, String name) {
 
-  private static final int MIN_NAME_LENGTH = 1;
   private static final int MAX_NAME_LENGTH = 50;
 
   /**
@@ -17,10 +16,13 @@ public record Author(int id, String name) {
    * @param name The name of the author.
    * @throws IllegalArgumentException If ID is not a positive number.
    */
-  public Author {
+  public Author(int id, String name) {
     if (id <= 0) {
       throw new IllegalArgumentException("ID must be a positive number.");
     }
+
+    this.id = id;
+    this.name = validateName(name);
 
   }
 

@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata.ui;
 
+import edu.ntnu.idi.bidata.author.Author;
 import edu.ntnu.idi.bidata.author.AuthorRegistry;
 import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import java.util.Scanner;
@@ -70,6 +71,7 @@ public class UserInterface {
 
   private void viewAllEntries() {
     System.out.println("All diary entries");
+
   }
 
   private void searchMenu() {
@@ -86,9 +88,19 @@ public class UserInterface {
 
   private void showStatistics() {
     System.out.println("Statistics");
+    System.out.println("Total entries: " + diaryRegistry.getNumberOfEntries());
+    System.out.println("Total authors: " + authorRegistry.getAllAuthors().size());
+
+    System.out.println("\n");
+
+    for (Author author : authorRegistry.getAllAuthors()) {
+      long count = diaryRegistry.getAllEntriesSortedDescending().stream().filter(
+          entry -> entry.getAuthor().id() == author.id()).count();
+    }
   }
 
   private void exitApplication() {
+    System.out.println("Exiting application...");
     running = false;
   }
 }

@@ -3,6 +3,8 @@ package edu.ntnu.idi.bidata.diary;
 import edu.ntnu.idi.bidata.author.Author;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <h1>Diary Entry.</h1>
@@ -17,7 +19,7 @@ public class DiaryEntry {
   private static final int MAX_TITLE_LENGTH = 100;
   private static final int MIN_CONTENT_LENGTH = 1;
   private static final int MAX_CONTENT_LENGTH = 5000;
-
+  protected final Map<String, String> templateFields;
   private final int id;
   private final Author author;
   private final LocalDateTime timestamp;
@@ -55,6 +57,7 @@ public class DiaryEntry {
     this.title = validateTitle(title);
     this.content = validateContent(content);
     this.category = validateCategory(category);
+    this.templateFields = new HashMap<>();
   }
 
   /**
