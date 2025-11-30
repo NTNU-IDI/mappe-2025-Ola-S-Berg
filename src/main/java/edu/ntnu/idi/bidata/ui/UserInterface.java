@@ -43,5 +43,52 @@ public class UserInterface {
    */
   private void displayMenu() {
     System.out.println("Main menu");
+    System.out.println("1. Create new diary entry");
+    System.out.println("2. View all entries");
+    System.out.println("3. Search entries");
+    System.out.println("4. Delete entry");
+    System.out.println("5. Manage authors");
+    System.out.println("6. Statistics");
+    System.out.println("7. Exit");
+  }
+
+  private void handleMainMenu(int choice) {
+    switch (choice) {
+      case 1 -> createNewEntry();
+      case 2 -> viewAllEntries();
+      case 3 -> searchMenu();
+      case 4 -> deleteEntry();
+      case 5 -> manageAuthors();
+      case 6 -> showStatistics();
+      case 0 -> exitApplication();
+    }
+  }
+
+  private void createNewEntry() {
+    System.out.println("Create new diary entry");
+  }
+
+  private void viewAllEntries() {
+    System.out.println("All diary entries");
+  }
+
+  private void searchMenu() {
+    System.out.println("Search entries");
+  }
+
+  private void deleteEntry() {
+    System.out.println("Delete entry");
+  }
+
+  private void manageAuthors() {
+    System.out.println("Manage authors");
+  }
+
+  private void showStatistics() {
+    System.out.println("Statistics");
+  }
+
+  private void exitApplication() {
+    running = false;
   }
 }
