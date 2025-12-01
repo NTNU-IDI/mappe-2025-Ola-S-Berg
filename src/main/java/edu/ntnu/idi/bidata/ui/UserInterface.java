@@ -2,6 +2,7 @@ package edu.ntnu.idi.bidata.ui;
 
 import edu.ntnu.idi.bidata.author.Author;
 import edu.ntnu.idi.bidata.author.AuthorRegistry;
+import edu.ntnu.idi.bidata.diary.DiaryEntry;
 import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import java.util.List;
 import java.util.Scanner;
@@ -75,12 +76,72 @@ public class UserInterface {
 
   }
 
+  private void printEntry(DiaryEntry entry) {
+    System.out.println("┌" + "─".repeat(70) + "┐");
+    System.out.println("│ ID: " + entry.getId()
+        + " │ Category: " + entry.getCategory());
+    System.out.println("│ Title: " + entry.getTitle());
+    System.out.println("│ Author: " + entry.getAuthor().name()
+        + " │ Date: " + entry.getFormattedTimestamp());
+    System.out.println("├" + "─".repeat(70) + "┤");
+
+    String content = entry.getContent();
+    int maxLineLength = 68;
+    String[] words = content.split(" ");
+    StringBuilder line = new StringBuilder("│ ");
+
+    for (String word : words) {
+      if (line.length() + word.length() + 1 > maxLineLength) {
+        while (line.length() < maxLineLength + 2) {
+          line.append(" ");
+        }
+        line.append(" │");
+        System.out.println(line);
+        line = new StringBuilder("│ " + word + " ");
+      } else {
+        line.append(word).append(" ");
+      }
+    }
+
+    if (line.length() > 2) {
+      while (line.length() < maxLineLength + 2) {
+        line.append(" ");
+      }
+      line.append(" │");
+      System.out.println(line);
+    }
+
+    System.out.println("└" + "─".repeat(70) + "┘");
+  }
+
   private void searchMenu() {
     System.out.println("Search entries");
   }
 
   private void deleteEntry() {
     System.out.println("Delete entry");
+    int id = getIntInput("Enter entry ID to delete: ");
+
+    DiaryEntry entry = diaryRegistry.findEntryById(id);
+    if (entry == null) {
+      System.out.println("Entry with ID " + id + " not found");
+    }
+
+    System.out.println("\nEntry to delete:");
+    assert entry != null;
+    printEntry(entry);
+
+    System.out.print("\nAre you sure you want to delete this entry? (y/n)");
+    String confirmation = scanner.nextLine();
+    if (confirmation.equalsIgnoreCase("y")) {
+      if (diaryRegistry.deleteEntryById(id)) {
+        System.out.println("Entry with ID " + id + " successfully deleted");
+      } else {
+        System.out.println("Failed to delete entry.");
+      }
+    } else {
+      System.out.println("Deletion cancelled.");
+    }
   }
 
   private void manageAuthors() {
@@ -99,7 +160,6 @@ public class UserInterface {
       case 3 -> deleteAuthor();
       case 4 -> searchAuthor();
       case 0 -> {
-        return;
       }
       default -> exitApplication();
     }
