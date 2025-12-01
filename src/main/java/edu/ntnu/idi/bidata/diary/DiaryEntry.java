@@ -9,16 +9,18 @@ import java.util.Map;
 /**
  * <h1>Diary Entry.</h1>
  *
- * <p>Represents a single entry in a diary. Has responsibility for saving and handling information
- * related to a single diary entry. Ensures the data saved is valid and consistent.
- * </p>
+ * <p>Abstract base class representing a diary entry. This class provides common functionality
+ * for all types of diary entries and serves as a superclass for specialized entry types</p>
+ *
+ * <p>Subclasses can use the templateFields map to store and display specialized fields.</p>
  */
-public class DiaryEntry {
+public abstract class DiaryEntry {
 
   private static final int MIN_TITLE_LENGTH = 1;
   private static final int MAX_TITLE_LENGTH = 100;
   private static final int MIN_CONTENT_LENGTH = 1;
   private static final int MAX_CONTENT_LENGTH = 5000;
+
   protected final Map<String, String> templateFields;
   private final int id;
   private final Author author;
@@ -61,6 +63,23 @@ public class DiaryEntry {
   }
 
   /**
+   * Returns the type of this diary entry. This method must be implemented by all subclasses.
+   *
+   * @return The entry type as a string.
+   */
+  public abstract String getEntryType();
+
+  /**
+   * Gets the template-specific fields for this entry. Returns an empty map for StandardEntry, but
+   * contains specialized fields.
+   *
+   * @return A map of field names to field values.
+   */
+  public Map<String, String> getTemplateFields() {
+    return new HashMap<>(templateFields);
+  }
+
+  /**
    * Validates whether the diary entry title format is valid.
    *
    * @param title The title to validate.
@@ -74,7 +93,7 @@ public class DiaryEntry {
     String trimmedTitle = title.trim();
     if (trimmedTitle.length() > MAX_TITLE_LENGTH) {
       throw new IllegalArgumentException(String.format("Title must be between %d and %d symbols",
-          MAX_TITLE_LENGTH, MIN_TITLE_LENGTH));
+          MIN_TITLE_LENGTH, MAX_TITLE_LENGTH));
     }
     return trimmedTitle;
   }
@@ -93,7 +112,7 @@ public class DiaryEntry {
     String trimmedContent = content.trim();
     if (trimmedContent.length() > MAX_CONTENT_LENGTH) {
       throw new IllegalArgumentException(String.format("Content must be between %d and %d symbols",
-          MAX_CONTENT_LENGTH, MIN_CONTENT_LENGTH));
+          MIN_CONTENT_LENGTH, MAX_CONTENT_LENGTH));
     }
     return trimmedContent;
   }

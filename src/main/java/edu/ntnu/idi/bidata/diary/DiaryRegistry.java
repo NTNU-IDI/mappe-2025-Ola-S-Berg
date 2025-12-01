@@ -2,6 +2,7 @@ package edu.ntnu.idi.bidata.diary;
 
 import edu.ntnu.idi.bidata.author.Author;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -48,10 +49,9 @@ public class DiaryRegistry {
    * @param category The category of the entry.
    * @return The created diary.
    */
-  public DiaryEntry createAndAddEntry(Author author, java.time.LocalDateTime timeStamp,
+  public StandardEntry createStandardEntry(Author author, LocalDateTime timestamp,
       String title, String content, String category) {
-    DiaryEntry entry = new DiaryEntry(nextId++, author, timeStamp,
-        title, content, category);
+    StandardEntry entry = new StandardEntry(nextId++, author, timestamp, title, content, category);
     addEntry(entry);
     return entry;
   }
