@@ -3,6 +3,7 @@ package edu.ntnu.idi.bidata.ui;
 import edu.ntnu.idi.bidata.author.Author;
 import edu.ntnu.idi.bidata.author.AuthorRegistry;
 import edu.ntnu.idi.bidata.diary.DiaryRegistry;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -84,6 +85,90 @@ public class UserInterface {
 
   private void manageAuthors() {
     System.out.println("Manage authors");
+    System.out.println("1. View all authors");
+    System.out.println("2. Add new author");
+    System.out.println("3. Delete author");
+    System.out.println("4. Search author");
+    System.out.println("0. Back to main menu");
+
+    int choice = getIntInput("Enter author ID to delete: ");
+
+    switch (choice) {
+      case 1 -> viewAllAuthors();
+      case 2 -> addNewAuthor();
+      case 3 -> deleteAuthor();
+      case 4 -> searchAuthor();
+      case 0 -> {
+        return;
+      }
+      default -> exitApplication();
+    }
+  }
+
+  private void viewAllAuthors() {
+    List<Author> authors = authorRegistry.getAllAuthors();
+
+    if (authors.isEmpty()) {
+      System.out.println("No authors found");
+      return;
+    }
+
+    System.out.println("\nAll authors:");
+    for (Author author : authors) {
+      System.out.println(author);
+    }
+  }
+
+  private void addNewAuthor() {
+    System.out.println("Add new author");
+    String name = scanner.nextLine().trim();
+
+    try {
+      Author author = authorRegistry.createAndAddAuthor(name);
+      System.out.println("Author created: " + author);
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+
+  private void deleteAuthor() {
+    int id = getIntInput("Enter author ID to delete: ");
+    Author author = authorRegistry.findAuthorById(id);
+
+    if (author == null) {
+      System.out.println("Author not found");
+    }
+
+    System.out.println("Delete author: " + author);
+    System.out.print("Confirm deletion (y/n)");
+    String confirmation = scanner.nextLine().trim().toLowerCase();
+
+    if (confirmation.equals("y")) {
+      if (authorRegistry.deleteAuthorById(id)) {
+        System.out.println("Author deleted");
+      } else {
+        System.out.println("Failed to delete author");
+      }
+    } else {
+      System.out.println("Deletion cancelled, returning to main menu...");
+    }
+  }
+
+  private void searchAuthor() {
+    System.out.println("Enter name of author to search for: ");
+    String name = scanner.nextLine().trim();
+
+    List<Author> authors = authorRegistry.findAuthorByName(name);
+
+    if (authors.isEmpty()) {
+      System.out.println("No authors found " + name);
+      return;
+    }
+
+    System.out.println("Search results:");
+    for (Author author : authors) {
+      System.out.println(author);
+    }
   }
 
   private void showStatistics() {
@@ -102,5 +187,17 @@ public class UserInterface {
   private void exitApplication() {
     System.out.println("Exiting application...");
     running = false;
+  }
+
+  private int getIntInput(String s) {
+    while (true) {
+      try {
+        System.out.println("Enter your choice: ");
+        String input = scanner.nextLine().trim();
+        return Integer.parseInt(input);
+      } catch (NumberFormatException e) {
+        System.out.println("Please enter a number");
+      }
+    }
   }
 }
