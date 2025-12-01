@@ -55,6 +55,11 @@ public class UserInterface {
     System.out.println("7. Exit");
   }
 
+  /**
+   * Handles main menu selection.
+   *
+   * @param choice The user's menu choice.
+   */
   private void handleMainMenu(int choice) {
     switch (choice) {
       case 1 -> createNewEntry();
@@ -76,6 +81,11 @@ public class UserInterface {
 
   }
 
+  /**
+   * Prints a single diary entry with formatting.
+   *
+   * @param entry The entry to print.
+   */
   private void printEntry(DiaryEntry entry) {
     System.out.println("┌" + "─".repeat(70) + "┐");
     System.out.println("│ ID: " + entry.getId()
@@ -114,10 +124,16 @@ public class UserInterface {
     System.out.println("└" + "─".repeat(70) + "┘");
   }
 
+  /**
+   * Displays the search menu.
+   */
   private void searchMenu() {
     System.out.println("Search entries");
   }
 
+  /**
+   * Deletes a diary entry.
+   */
   private void deleteEntry() {
     System.out.println("Delete entry");
     int id = getIntInput("Enter entry ID to delete: ");
@@ -144,6 +160,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Manages authors. Allows for adding, viewing or deleting authors.
+   */
   private void manageAuthors() {
     System.out.println("Manage authors");
     System.out.println("1. View all authors");
@@ -165,6 +184,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Displays all authors.
+   */
   private void viewAllAuthors() {
     List<Author> authors = authorRegistry.getAllAuthors();
 
@@ -179,6 +201,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Adds a new author.
+   */
   private void addNewAuthor() {
     System.out.println("Add new author");
     String name = scanner.nextLine().trim();
@@ -191,6 +216,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Deletes an author.
+   */
   private void deleteAuthor() {
     int id = getIntInput("Enter author ID to delete: ");
     Author author = authorRegistry.findAuthorById(id);
@@ -214,6 +242,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Searches for an author.
+   */
   private void searchAuthor() {
     System.out.println("Enter name of author to search for: ");
     String name = scanner.nextLine().trim();
@@ -231,6 +262,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Shows statistics.
+   */
   private void showStatistics() {
     System.out.println("Statistics");
     System.out.println("Total entries: " + diaryRegistry.getNumberOfEntries());
@@ -244,12 +278,21 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Exits the application.
+   */
   private void exitApplication() {
     System.out.println("Exiting application...");
     running = false;
   }
 
-  private int getIntInput(String s) {
+  /**
+   * Gets integer input from the user.
+   *
+   * @param prompt The prompt to display.
+   * @return The integer entered by the user.
+   */
+  private int getIntInput(String prompt) {
     while (true) {
       try {
         System.out.println("Enter your choice: ");
