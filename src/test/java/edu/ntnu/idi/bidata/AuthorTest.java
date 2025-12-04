@@ -83,11 +83,10 @@ class AuthorTest {
   @Test
   void testCreateAuthorWithNullName() {
     int id = 1;
-    String name = null;
 
     IllegalArgumentException exception = assertThrows(
         IllegalArgumentException.class,
-        () -> new Author(id, name)
+        () -> new Author(id, null)
     );
     assertEquals("Name must not be null or empty.", exception.getMessage());
   }
