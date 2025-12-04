@@ -347,14 +347,19 @@ public class UserInterface {
    * Searches for entries by date.
    */
   private void searchByDate() {
-    System.out.print("\nEnter date (format: yyyy-mm-dd): ");
+    System.out.print("\nEnter date (format: dd.mm.yyyy): ");
     String dateStr = scanner.nextLine().trim();
 
     try {
-      java.time.LocalDate date = java.time.LocalDate.parse(dateStr);
+      java.time.format.DateTimeFormatter formatter =
+          java.time.format.DateTimeFormatter.ofPattern("dd.mm.yyyy");
+      java.time.LocalDate date = java.time.LocalDate.parse(dateStr, formatter);
+
       List<DiaryEntry> entries = diaryRegistry.findEntriesByDate(date);
 
-      System.out.println("\nEntries on " + date + ":");
+      String displayDate = date.format(formatter);
+      System.out.println("\nEntries on " + displayDate + ":");
+
       if (entries.isEmpty()) {
         System.out.println("No entries found.");
       } else {
@@ -364,9 +369,10 @@ public class UserInterface {
         }
       }
     } catch (Exception e) {
-      System.out.println("Invalid date format. Please use yyyy-mm-dd");
+      System.out.println("Invalid date format. Please use dd.mm.yyyy");
     }
   }
+
 
   /**
    * Searches for entries by category.
