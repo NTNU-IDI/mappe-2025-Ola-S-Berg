@@ -187,20 +187,6 @@ public class DiaryRegistry {
   }
 
   /**
-   * Deletes a diary entry from the registry.
-   *
-   * @param entry The entry to delete.
-   * @return True if the entry was found and deleted, false otherwise.
-   * @throws IllegalArgumentException If the entry is null.
-   */
-  public boolean deleteEntry(DiaryEntry entry) {
-    if (entry == null) {
-      throw new IllegalArgumentException("Diary entry cannot be null");
-    }
-    return entries.remove(entry);
-  }
-
-  /**
    * Deletes a diary entry by its ID.
    *
    * @param id The ID of the entry to delete.
@@ -212,17 +198,6 @@ public class DiaryRegistry {
       return entries.remove(entry);
     }
     return false;
-  }
-
-  /**
-   * Returns all diary entries sorted by oldest entries first.
-   *
-   * @return A sorted list of all diary entries.
-   */
-  public List<DiaryEntry> getAllEntriesSortedAscending() {
-    return entries.stream()
-        .sorted(Comparator.comparing(DiaryEntry::getTimestamp))
-        .collect(Collectors.toList());
   }
 
   /**
@@ -252,14 +227,5 @@ public class DiaryRegistry {
    */
   public boolean isEmpty() {
     return entries.isEmpty();
-  }
-
-  /**
-   * Gets the next available ID for a new entry.
-   *
-   * @return The next ID.
-   */
-  public int getNextId() {
-    return nextId;
   }
 }

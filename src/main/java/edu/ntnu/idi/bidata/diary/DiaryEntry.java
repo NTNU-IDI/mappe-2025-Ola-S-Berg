@@ -26,8 +26,8 @@ public abstract class DiaryEntry {
   private final Author author;
   private final LocalDateTime timestamp;
   private final String title;
-  private String content;
-  private String category;
+  private final String content;
+  private final String category;
 
   /**
    * Constructs a new diary entry.
@@ -149,15 +149,6 @@ public abstract class DiaryEntry {
   }
 
   /**
-   * Gets the author's name.
-   *
-   * @return The name of the author.
-   */
-  public String getAuthorName() {
-    return author.name();
-  }
-
-  /**
    * Gets the timestamp of this diary entry.
    *
    * @return The timestamp.
@@ -195,29 +186,11 @@ public abstract class DiaryEntry {
   }
 
   /**
-   * Sets the content of this diary entry.
-   *
-   * @param content The content to set.
-   */
-  public void setContent(String content) {
-    this.content = validateContent(content);
-  }
-
-  /**
    * Gets the category of this diary entry.
    *
    * @return The category.
    */
   public String getCategory() {
     return category;
-  }
-
-  /**
-   * Sets the category of this diary entry.
-   *
-   * @param category The category to set.
-   */
-  public void setCategory(String category) {
-    this.category = validateCategory(category);
   }
 }

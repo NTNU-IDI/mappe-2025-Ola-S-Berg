@@ -85,42 +85,6 @@ public class AuthorRegistry {
   }
 
   /**
-   * Finds an author by exact name match.
-   *
-   * @param name The exact name to search for.
-   * @return The author with matching name, or null if not found.
-   * @throws IllegalArgumentException If name is null or empty.
-   */
-  public Author findAuthorByExactName(String name) {
-    if (name == null || name.trim().isEmpty()) {
-      throw new IllegalArgumentException("Author name cannot be null or empty");
-    }
-
-    String searchName = name.trim();
-
-    for (Author author : authors.values()) {
-      if (author.name().equals(searchName)) {
-        return author;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Deletes an author from the registry.
-   *
-   * @param author The author to delete.
-   * @return True if the author was found and deleted, false otherwise.
-   * @throws IllegalArgumentException If author is null.
-   */
-  public boolean deleteAuthor(Author author) {
-    if (author == null) {
-      throw new IllegalArgumentException("Author cannot be null");
-    }
-    return authors.remove(author.id()) != null;
-  }
-
-  /**
    * Deletes an author by their ID.
    *
    * @param id The ID of the author to delete.
