@@ -14,7 +14,6 @@ public class GymEntry extends DiaryEntry {
   private String exercises;
   private String sets;
   private String reps;
-  private String weight;
 
   /**
    * Constructs a new gym diary entry.
@@ -28,22 +27,19 @@ public class GymEntry extends DiaryEntry {
    * @param exercises The exercises performed (e.g., "Bench press, Squats").
    * @param sets      Number of sets performed.
    * @param reps      Number of repetitions per set.
-   * @param weight    Weight used (e.g., "80kg, 100kg").
    */
   public GymEntry(int id, Author author, LocalDateTime timestamp,
       String title, String content, String category,
-      String exercises, String sets, String reps, String weight) {
+      String exercises, String sets, String reps) {
     super(id, author, timestamp, title, content, category);
 
     this.exercises = validateTemplateField(exercises, "Exercises");
     this.sets = validateTemplateField(sets, "Sets");
     this.reps = validateTemplateField(reps, "Reps");
-    this.weight = validateTemplateField(weight, "Weight");
 
     templateFields.put("Exercises", this.exercises);
     templateFields.put("Sets", this.sets);
     templateFields.put("Reps", this.reps);
-    templateFields.put("Weight", this.weight);
   }
 
   /**
@@ -61,42 +57,59 @@ public class GymEntry extends DiaryEntry {
     return value.trim();
   }
 
+  /**
+   * Gets the exercises for this gym entry.
+   *
+   * @return The exercise to get.
+   */
   public String getExercises() {
     return exercises;
   }
 
+  /**
+   * Sets the exercises for this gym entry.
+   *
+   * @param exercises The exercise to set.
+   */
   public void setExercises(String exercises) {
     this.exercises = validateTemplateField(exercises, "Exercises");
     templateFields.put("Exercises", this.exercises);
   }
 
-  public String getSets() {
-    return sets;
-  }
-
+  /**
+   * Sets the sets for this gym entry.
+   *
+   * @param sets The sets to set.
+   */
   public void setSets(String sets) {
     this.sets = validateTemplateField(sets, "Sets");
     templateFields.put("Sets", this.sets);
   }
 
+  /**
+   * Gets the repetitions for this gym entry.
+   *
+   * @return The repetitions to get.
+   */
   public String getReps() {
     return reps;
   }
 
+  /**
+   * Sets the repetitions for this gym entry.
+   *
+   * @param reps The repetitions to set.
+   */
   public void setReps(String reps) {
     this.reps = validateTemplateField(reps, "Reps");
     templateFields.put("Reps", this.reps);
   }
 
-  public String getWeight() {
-    return weight;
-  }
-
-  public void setWeight(String weight) {
-    this.weight = validateTemplateField(weight, "Weight");
-    templateFields.put("Weight", this.weight);
-  }
-
+  /**
+   * Gets the entry type of this gym entry.
+   *
+   * @return The entry type.
+   */
   @Override
   public String getEntryType() {
     return "Gym";

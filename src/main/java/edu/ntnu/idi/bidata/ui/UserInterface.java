@@ -56,9 +56,10 @@ public class UserInterface {
     System.out.println("1. Create new diary entry");
     System.out.println("2. View all entries");
     System.out.println("3. Search entries");
-    System.out.println("4. Delete entry");
-    System.out.println("5. Manage authors");
-    System.out.println("6. Statistics");
+    System.out.println("4. Edit entry");
+    System.out.println("5. Delete entry");
+    System.out.println("6. Manage authors");
+    System.out.println("7. Statistics");
     System.out.println("0. Exit");
     System.out.println("================================");
   }
@@ -73,9 +74,10 @@ public class UserInterface {
       case 1 -> createNewEntry();
       case 2 -> viewAllEntries();
       case 3 -> searchMenu();
-      case 4 -> deleteEntry();
-      case 5 -> manageAuthors();
-      case 6 -> showStatistics();
+      case 4 -> editEntry();
+      case 5 -> deleteEntry();
+      case 6 -> manageAuthors();
+      case 7 -> showStatistics();
       case 0 -> exitApplication();
       default -> System.out.println("Invalid choice. Please try again.");
     }
@@ -238,12 +240,9 @@ public class UserInterface {
         "Repetitions (comma-separated, e.g., 7x60kg;6x60kg;6x55kg, 8x100kg;7x100kg;6x100kg): ");
     String reps = scanner.nextLine().trim();
 
-    System.out.print("Weight used (if not included in reps): ");
-    String weight = scanner.nextLine().trim();
-
     return diaryRegistry.createGymEntry(
         author, LocalDateTime.now(), title, content, category,
-        exercises, sets, reps, weight);
+        exercises, sets, reps);
   }
 
   /**
@@ -593,6 +592,165 @@ public class UserInterface {
       }
     } else {
       System.out.println("Deletion cancelled.");
+    }
+  }
+
+  /**
+   * Edits an existing diary entry's template-specific fields.
+   */
+  private void editEntry() {
+    System.out.println("\nEDIT ENTRY");
+    int id = getIntInput("Enter entry ID to edit: ");
+
+    DiaryEntry entry = diaryRegistry.findEntryById(id);
+    if (entry == null) {
+      System.out.println("Entry with ID " + id + " not found.");
+      return;
+    }
+
+    System.out.println("\nCurrent entry:");
+    printEntry(entry);
+
+    if (entry instanceof edu.ntnu.idi.bidata.diary.GymEntry) {
+      editGymEntry((edu.ntnu.idi.bidata.diary.GymEntry) entry);
+    } else if (entry instanceof edu.ntnu.idi.bidata.diary.FishingEntry) {
+      editFishingEntry((edu.ntnu.idi.bidata.diary.FishingEntry) entry);
+    } else {
+      System.out.println("\nStandard entries cannot be edited.");
+    }
+  }
+
+  /**
+   * Edits a gym entry's modifiable fields.
+   *
+   * @param entry The gym entry to edit.
+   */
+  private void editGymEntry(edu.ntnu.idi.bidata.diary.GymEntry entry) {
+    System.out.println("\nEDIT GYM ENTRY - Choose field to edit:");
+    System.out.println("1. Exercises");
+    System.out.println("2. Sets");
+    System.out.println("3. Repetitions");
+    System.out.println("4. Weight");
+    System.out.println("5. Edit all fields");
+    System.out.println("0. Cancel");
+
+    int choice = getIntInput("\nEnter your choice: ");
+
+    try {
+      switch (choice) {
+        case 1 -> {
+          System.out.print("Enter new exercises (comma-separated): ");
+          String exercises = scanner.nextLine().trim();
+          entry.setExercises(exercises);
+          System.out.println("Exercises updated");
+        }
+        case 2 -> {
+          System.out.print("Enter new sets (comma-separated): ");
+          String sets = scanner.nextLine().trim();
+          entry.setSets(sets);
+          System.out.println("Sets updated");
+        }
+        case 3 -> {
+          System.out.print("Enter new repetitions (semicolon-separated sets): ");
+          String reps = scanner.nextLine().trim();
+          entry.setReps(reps);
+          System.out.println("Repetitions updated");
+        }
+        case 4 -> {
+          System.out.print("Enter new exercises (comma-separated): ");
+          entry.setExercises(scanner.nextLine().trim());
+          System.out.print("Enter new sets (comma-separated): ");
+          entry.setSets(scanner.nextLine().trim());
+          System.out.print("Enter new repetitions (semicolon-separated sets): ");
+          entry.setReps(scanner.nextLine().trim());
+          System.out.println("All fields updated");
+        }
+        case 0 -> {
+          System.out.println("Edit cancelled.");
+          return;
+        }
+        default -> {
+          System.out.println("Invalid choice.");
+          return;
+        }
+      }
+
+      System.out.println("\nUpdated entry:");
+      printEntry(entry);
+
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error updating entry: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Edits a fishing entry's modifiable fields.
+   *
+   * @param entry The fishing entry to edit.
+   */
+  private void editFishingEntry(edu.ntnu.idi.bidata.diary.FishingEntry entry) {
+    System.out.println("\nEDIT FISHING ENTRY - Choose field to edit:");
+    System.out.println("1. Weather");
+    System.out.println("2. Fish caught");
+    System.out.println("3. Location");
+    System.out.println("4. Bait used");
+    System.out.println("5. Edit all fields");
+    System.out.println("0. Cancel");
+
+    int choice = getIntInput("\nEnter your choice: ");
+
+    try {
+      switch (choice) {
+        case 1 -> {
+          System.out.print("Enter new weather conditions: ");
+          String weather = scanner.nextLine().trim();
+          entry.setWeather(weather);
+          System.out.println("Weather updated");
+        }
+        case 2 -> {
+          System.out.print("Enter new fish caught: ");
+          String fishCaught = scanner.nextLine().trim();
+          entry.setFishCaught(fishCaught);
+          System.out.println("Fish caught updated");
+        }
+        case 3 -> {
+          System.out.print("Enter new location: ");
+          String location = scanner.nextLine().trim();
+          entry.setLocation(location);
+          System.out.println("Location updated");
+        }
+        case 4 -> {
+          System.out.print("Enter new bait used: ");
+          String baitUsed = scanner.nextLine().trim();
+          entry.setBaitUsed(baitUsed);
+          System.out.println("Bait used updated");
+        }
+        case 5 -> {
+          System.out.print("Enter new weather conditions: ");
+          entry.setWeather(scanner.nextLine().trim());
+          System.out.print("Enter new fish caught: ");
+          entry.setFishCaught(scanner.nextLine().trim());
+          System.out.print("Enter new location: ");
+          entry.setLocation(scanner.nextLine().trim());
+          System.out.print("Enter new bait used: ");
+          entry.setBaitUsed(scanner.nextLine().trim());
+          System.out.println("All fields updated");
+        }
+        case 0 -> {
+          System.out.println("Edit cancelled.");
+          return;
+        }
+        default -> {
+          System.out.println("Invalid choice.");
+          return;
+        }
+      }
+
+      System.out.println("\nUpdated entry:");
+      printEntry(entry);
+
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error updating entry: " + e.getMessage());
     }
   }
 

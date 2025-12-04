@@ -93,15 +93,14 @@ public class DiaryRegistry {
    * @param exercises Exercises performed.
    * @param sets      Number of sets.
    * @param reps      Number of repetitions.
-   * @param weight    Weight used.
    * @return The created gym entry.
    */
   public GymEntry createGymEntry(Author author, LocalDateTime timestamp,
       String title, String content, String category,
       String exercises, String sets,
-      String reps, String weight) {
+      String reps) {
     GymEntry entry = new GymEntry(nextId++, author, timestamp,
-        title, content, category, exercises, sets, reps, weight);
+        title, content, category, exercises, sets, reps);
     addEntry(entry);
     return entry;
   }

@@ -61,42 +61,51 @@ public class FishingEntry extends DiaryEntry {
     return value.trim();
   }
 
-  public String getWeather() {
-    return weather;
-  }
-
+  /**
+   * Sets the weather for this fishing entry.
+   *
+   * @param weather The weather to set.
+   */
   public void setWeather(String weather) {
     this.weather = validateTemplateField(weather, "Weather");
     templateFields.put("Weather", this.weather);
   }
 
-  public String getFishCaught() {
-    return fishCaught;
-  }
-
+  /**
+   * Sets the fish caught for this fishing entry.
+   *
+   * @param fishCaught The fish caught.
+   */
   public void setFishCaught(String fishCaught) {
     this.fishCaught = validateTemplateField(fishCaught, "Fish caught");
     templateFields.put("Fish caught", this.fishCaught);
   }
 
-  public String getLocation() {
-    return location;
-  }
-
+  /**
+   * Sets the location for this fishing entry.
+   *
+   * @param location The location to set.
+   */
   public void setLocation(String location) {
     this.location = validateTemplateField(location, "Location");
     templateFields.put("Location", this.location);
   }
 
-  public String getBaitUsed() {
-    return baitUsed;
-  }
-
+  /**
+   * Sets the bait used for this fishing entry.
+   *
+   * @param baitUsed The bait used.
+   */
   public void setBaitUsed(String baitUsed) {
     this.baitUsed = validateTemplateField(baitUsed, "Bait used");
     templateFields.put("Bait used", this.baitUsed);
   }
 
+  /**
+   * Gets the entry type of this fishing entry.
+   *
+   * @return The entry type.
+   */
   @Override
   public String getEntryType() {
     return "Fishing";
