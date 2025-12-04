@@ -4,6 +4,7 @@ import edu.ntnu.idi.bidata.author.Author;
 import edu.ntnu.idi.bidata.author.AuthorRegistry;
 import edu.ntnu.idi.bidata.diary.DiaryEntry;
 import edu.ntnu.idi.bidata.diary.DiaryRegistry;
+import edu.ntnu.idi.bidata.diary.GymEntry;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -227,16 +228,17 @@ public class UserInterface {
       String content, String category) {
     System.out.println("\nGym Entry Details");
 
-    System.out.print("Exercises performed: ");
+    System.out.print("Exercises performed (comma-separated, e.g., Bench Press, Squats): ");
     String exercises = scanner.nextLine().trim();
 
-    System.out.print("Number of sets: ");
+    System.out.print("Number of sets (comma-separated, e.g., 3, 4): ");
     String sets = scanner.nextLine().trim();
 
-    System.out.print("Repetitions: ");
+    System.out.print(
+        "Repetitions (comma-separated, e.g., 7x60kg;6x60kg;6x55kg, 8x100kg;7x100kg;6x100kg): ");
     String reps = scanner.nextLine().trim();
 
-    System.out.print("Weight used: ");
+    System.out.print("Weight used (if not included in reps): ");
     String weight = scanner.nextLine().trim();
 
     return diaryRegistry.createGymEntry(
@@ -267,18 +269,26 @@ public class UserInterface {
   }
 
   /**
-   * Prints a single diary entry with formatting and template-specific fields.
+   * Prints a single diary entry with formatting and template-specific fields. Uses special
+   * formatting for Gym entries.
    *
    * @param entry The entry to print.
    */
   private void printEntry(DiaryEntry entry) {
-    System.out.println("┌" + "─".repeat(70) + "┐");
-    System.out.println("│ ID: " + entry.getId()
-        + " │ Type: " + entry.getEntryType()
-        + " │ Category: " + entry.getCategory());
-    System.out.println("│ Title: " + entry.getTitle());
-    System.out.println("│ Author: " + entry.getAuthor().name()
-        + " │ Date: " + entry.getFormattedTimestamp());
+    if (entry instanceof GymEntry) {
+      printGymEntry((GymEntry) entry);
+    } else {
+      printStandardEntry(entry);
+    }
+  }
+
+  /**
+   * Prints a standard or fishing diary entry with standard formatting.
+   *
+   * @param entry The entry to print.
+   */
+  private void printStandardEntry(DiaryEntry entry) {
+    formatWrapper(entry);
 
     Map<String, String> templateFields = entry.getTemplateFields();
     if (!templateFields.isEmpty()) {
@@ -317,6 +327,95 @@ public class UserInterface {
     }
 
     System.out.println("└" + "─".repeat(70) + "┘");
+  }
+
+  /**
+   * Wraps an entry in lines based on the format of the entry.
+   *
+   * @param entry The entry to wrap.
+   */
+  private void formatWrapper(DiaryEntry entry) {
+    System.out.println("┌" + "─".repeat(70) + "┐");
+    System.out.println("│ ID: " + entry.getId()
+        + " │ Type: " + entry.getEntryType()
+        + " │ Category: " + entry.getCategory());
+    System.out.println("│ Title: " + entry.getTitle());
+    System.out.println("│ Author: " + entry.getAuthor().name()
+        + " │ Date: " + entry.getFormattedTimestamp());
+  }
+
+  /**
+   * Prints a gym entry with specialized Excel-like table formatting.
+   *
+   * @param entry The gym entry to print.
+   */
+  private void printGymEntry(GymEntry entry) {
+    formatWrapper(entry);
+    System.out.println("├" + "─".repeat(70) + "┤");
+
+    String content = entry.getContent();
+    if (!content.isEmpty()) {
+      System.out.println("│ Notes: " + content + padRight("", 70 - 8 - content.length()) + "│");
+      System.out.println("├" + "─".repeat(70) + "┤");
+    }
+
+    String[] exercises = entry.getExercises().split(",");
+    String[] repsData = entry.getReps().split(",");
+
+    System.out.println("│" + padCenter("WORKOUT SUMMARY", 70) + "│");
+    System.out.println("├" + "─".repeat(70) + "┤");
+    System.out.println(
+        "│" + padRight("Exercise", 30) + "│" + padCenter("Repetitions and Weight", 39) + "│");
+    System.out.println("├" + "─".repeat(30) + "┼" + "─".repeat(39) + "┤");
+
+    for (int i = 0; i < exercises.length; i++) {
+      String exercise = exercises[i].trim();
+      String repsInfo = i < repsData.length ? repsData[i].trim() : "N/A";
+
+      String[] sets = repsInfo.split(";");
+
+      System.out.println("│ " + padRight(exercise, 28) + " │ " + padRight(sets[0], 37) + " │");
+
+      for (int j = 1; j < sets.length; j++) {
+        System.out.println("│ " + padRight("", 28) + " │ " + padRight(sets[j].trim(), 37) + " │");
+      }
+
+      if (i < exercises.length - 1) {
+        System.out.println("├" + "─".repeat(30) + "┼" + "─".repeat(39) + "┤");
+      }
+    }
+
+    System.out.println("└" + "─".repeat(30) + "┴" + "─".repeat(39) + "┘");
+  }
+
+  /**
+   * Pads a string to the right with spaces.
+   *
+   * @param str    The string to pad.
+   * @param length The total length.
+   * @return The padded string.
+   */
+  private String padRight(String str, int length) {
+    if (str.length() >= length) {
+      return str.substring(0, length);
+    }
+    return str + " ".repeat(length - str.length());
+  }
+
+  /**
+   * Centers a string within a given length.
+   *
+   * @param str    The string to center.
+   * @param length The total length.
+   * @return The centered string.
+   */
+  private String padCenter(String str, int length) {
+    if (str.length() >= length) {
+      return str.substring(0, length);
+    }
+    int leftPad = (length - str.length()) / 2;
+    int rightPad = length - str.length() - leftPad;
+    return " ".repeat(leftPad) + str + " ".repeat(rightPad);
   }
 
   /**
@@ -570,7 +669,7 @@ public class UserInterface {
     }
 
     System.out.println("Delete author: " + author);
-    System.out.print("Confirm deletion (y/n)");
+    System.out.print("Confirm deletion (y/n): ");
     String confirmation = scanner.nextLine().trim().toLowerCase();
 
     if (confirmation.equals("y") || confirmation.equals("yes")) {
