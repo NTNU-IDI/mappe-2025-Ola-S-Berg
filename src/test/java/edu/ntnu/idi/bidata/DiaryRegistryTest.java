@@ -33,7 +33,6 @@ class DiaryRegistryTest {
     author = new Author(1, "Test Author");
   }
 
-
   @Test
   void testCreateEmptyRegistry() {
 
@@ -254,6 +253,61 @@ class DiaryRegistryTest {
   }
 
   @Test
+  void testFindEntriesByKeyword() {
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Title with keyword", "Content has fishing details", "Category");
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Another title", "This is about fishing trip", "Category");
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Different", "No match here", "Category");
+
+    List<DiaryEntry> entries = registry.findEntriesByKeyword("fishing");
+
+    assertEquals(2, entries.size());
+  }
+
+  @Test
+  void testFindEntriesByKeywordNullKeyword() {
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(null)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordEmptyKeyword() {
+    String keyword = "";
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(keyword)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordWhitespaceKeyword() {
+    String keyword = "   ";
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(keyword)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordNoMatches() {
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Title", "Content", "Category");
+
+    List<DiaryEntry> entries = registry.findEntriesByKeyword("nonexistent");
+
+    assertTrue(entries.isEmpty());
+  }
+
+  @Test
   void testFindEntriesByDateRangeNullStartDate() {
     LocalDate endDate = LocalDate.of(2025, 12, 5);
 
@@ -289,7 +343,6 @@ class DiaryRegistryTest {
 
   @Test
   void testAddNullEntry() {
-
     IllegalArgumentException exception = assertThrows(
         IllegalArgumentException.class,
         () -> registry.addEntry(null)
@@ -421,7 +474,6 @@ class DiaryRegistryTest {
 
   @Test
   void testGetAllEntriesSortedDescendingEmptyRegistry() {
-
     List<DiaryEntry> entries = registry.getAllEntriesSortedDescending();
 
     assertNotNull(entries);
