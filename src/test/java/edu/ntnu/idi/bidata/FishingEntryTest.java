@@ -21,7 +21,7 @@ class FishingEntryTest {
   @BeforeEach
   void setUp() {
     author = new Author(1, "Test Author");
-    timestamp = LocalDateTime.of(2024, 12, 4, 14, 30);
+    timestamp = LocalDateTime.of(2025, 12, 4, 14, 30);
   }
 
 

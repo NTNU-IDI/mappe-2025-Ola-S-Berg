@@ -10,7 +10,16 @@ import java.util.Map;
  * <h1>Diary Entry.</h1>
  *
  * <p>Abstract base class representing a diary entry. This class provides common functionality
- * for all types of diary entries and serves as a superclass for specialized entry types</p>
+ * for all types of diary entries and serves as a superclass for specialized entry types.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Store entry information (ID, author, times, title, content, category)</li>
+ *   <li>Validate entry fields to ensure data integrity</li>
+ *   <li>Provide a template field system for specialized entry types</li>
+ *   <li>Format timestamps for consistent display</li>
+ *   <li>Define the contract for entry type identification</li>
+ * </ul>
  *
  * <p>Subclasses can use the templateFields map to store and display specialized fields.</p>
  */
@@ -26,8 +35,8 @@ public abstract class DiaryEntry {
   private final Author author;
   private final LocalDateTime timestamp;
   private final String title;
-  private final String content;
   private final String category;
+  private String content;
 
   /**
    * Constructs a new diary entry.
@@ -183,6 +192,15 @@ public abstract class DiaryEntry {
    */
   public String getContent() {
     return content;
+  }
+
+  /**
+   * Sets the content of this diary entry.
+   *
+   * @param content The content to set.
+   */
+  public void setContent(String content) {
+    this.content = content;
   }
 
   /**

@@ -8,6 +8,15 @@ import java.time.LocalDateTime;
  *
  * <p>Represents a gym/workout diary entry with specific fields for exercise information.
  * Extends DiaryEntry with additional fields for exercises, sets, reps, and weight.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Track workout-specific details beyond basic diary information</li>
+ *   <li>Store and validate exercise names</li>
+ *   <li>Record number of sets for each exercise</li>
+ *   <li>Document repetitions and weight for each set</li>
+ *   <li>Structures workout data for progress tracking</li>
+ * </ul>
  */
 public class GymEntry extends DiaryEntry {
 

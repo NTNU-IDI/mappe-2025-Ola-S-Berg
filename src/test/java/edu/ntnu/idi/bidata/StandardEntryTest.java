@@ -23,7 +23,7 @@ class StandardEntryTest {
   @BeforeEach
   void setUp() {
     author = new Author(1, "Test Author");
-    timestamp = LocalDateTime.of(2024, 12, 4, 14, 30);
+    timestamp = LocalDateTime.of(2025, 12, 4, 14, 30);
   }
 
   @Test
@@ -58,7 +58,7 @@ class StandardEntryTest {
 
     String formatted = entry.getFormattedTimestamp();
 
-    assertEquals("04.12.2024 14:30", formatted);
+    assertEquals("04.12.2025 14:30", formatted);
   }
 
   @Test

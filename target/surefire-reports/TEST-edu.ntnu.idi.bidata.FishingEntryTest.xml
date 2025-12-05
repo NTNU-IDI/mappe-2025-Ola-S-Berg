@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="edu.ntnu.idi.bidata.FishingEntryTest" time="0.053" tests="20" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg\target\test-classes;C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg\target\classes;C:\Users\Ola\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.13.4\junit-jupiter-engine-5.13.4.jar;C:\Users\Ola\.m2\repository\org\junit\platform\junit-platform-engine\1.13.4\junit-platform-engine-1.13.4.jar;C:\Users\Ola\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Ola\.m2\repository\org\junit\platform\junit-platform-commons\1.13.4\junit-platform-commons-1.13.4.jar;C:\Users\Ola\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.13.4\junit-jupiter-api-5.13.4.jar;C:\Users\Ola\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Europe/Oslo"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="user.country" value="NO"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="C:\Users\Ola\Documents\jdk-23.0.2\bin"/>
+    <property name="sun.java.command" value="C:\Users\Ola\AppData\Local\Temp\surefire6936047744121070126\surefirebooter-20251205220956881_3.jar C:\Users\Ola\AppData\Local\Temp\surefire6936047744121070126 2025-12-05T22-09-56_678-jvmRun1 surefire-20251205220956881_1tmp surefire_0-20251205220956881_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg\target\test-classes;C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg\target\classes;C:\Users\Ola\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.13.4\junit-jupiter-engine-5.13.4.jar;C:\Users\Ola\.m2\repository\org\junit\platform\junit-platform-engine\1.13.4\junit-platform-engine-1.13.4.jar;C:\Users\Ola\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Ola\.m2\repository\org\junit\platform\junit-platform-commons\1.13.4\junit-platform-commons-1.13.4.jar;C:\Users\Ola\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.13.4\junit-jupiter-api-5.13.4.jar;C:\Users\Ola\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Ola"/>
+    <property name="user.language" value="no"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="C:\Users\Ola\Documents\jdk-23.0.2"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg"/>
+    <property name="style.color" value="always"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Ola\AppData\Local\Temp\surefire6936047744121070126\surefirebooter-20251205220956881_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="23.0.2+7-58"/>
+    <property name="user.name" value="Ola"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2025.2.5\plugins\maven\lib\maven-event-listener.jar"/>
+    <property name="localRepository" value="C:\Users\Ola\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\Ola\AppData\Local\Temp\"/>
+    <property name="idea.version" value="2025.2.5"/>
+    <property name="java.version" value="23.0.2"/>
+    <property name="user.dir" value="C:\Users\Ola\Documents\mappe-2025-Ola-S-Berg"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="jansi.passthrough" value="true"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\Ola\Documents\jdk-23.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\Ola\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\GitHub CLI\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Users\Ola\Documents\jdk-23.0.2\bin;C:\Users\Ola\Documents\javafx-sdk-23.0.2;C:\Program Files\MySQL\MySQL Shell 9.2\bin\;C:\Users\Ola\AppData\Local\Microsoft\WindowsApps;C:\Users\Ola\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Ola\AppData\Local\GitHubDesktop\bin;C:\Users\Ola\Documents\apache-maven-3.9.9\bin;C:\Users\Ola\Documents\jdk-23.0.2\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="23.0.2+7-58"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="maven.repo.local" value="C:\Users\Ola\.m2\repository"/>
+    <property name="java.class.version" value="67.0"/>
+  </properties>
+  <testcase name="testCreateFishingEntryWithNullFishCaught" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.003"/>
+  <testcase name="testSetBaitUsedWithNull" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.006"/>
+  <testcase name="testCreateValidFishingEntry" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithEmptyBaitUsed" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testSetLocation" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testSetLocationWithWhitespace" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testSetWeather" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithNullWeather" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testSetBaitUsed" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithWhitespaceInTemplateFields" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithEmptyWeather" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.003"/>
+  <testcase name="testSetWeatherWithNull" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testCreateFishingEntryWithEmptyFishCaught" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testSetFishCaughtWithEmpty" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithNullLocation" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testCreateFishingEntryWithNullBaitUsed" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.001"/>
+  <testcase name="testFishingEntryHasTemplateFields" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testSetFishCaught" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testCreateFishingEntryWithWhitespaceOnlyWeather" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.002"/>
+  <testcase name="testCreateFishingEntryWithEmptyLocation" classname="edu.ntnu.idi.bidata.FishingEntryTest" time="0.003"/>
+</testsuite>

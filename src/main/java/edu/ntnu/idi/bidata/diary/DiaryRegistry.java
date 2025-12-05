@@ -14,6 +14,17 @@ import java.util.stream.Collectors;
  * <p>Registry for managing a collection of diary entries. This class is responsible for sorting,
  * retrieving, and managing diary entries in the system. Supports multiple entry types including
  * StandardEntry, FishingEntry, and GymEntry.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Manage a collection of all diary entries in the application</li>
+ *   <li>Generate unique IDs for new entries</li>
+ *   <li>Create entries of different types (Standard, Fishing, Gym)</li>
+ *   <li>Search for entries by date, date range, keyword, category or type</li>
+ *   <li>Retrieve entries sorted by timestamp (newest/oldest first)</li>
+ *   <li>Delete entries by ID</li>
+ *   <li>Provide statistics about the entry collection</li>
+ * </ul>
  */
 public class DiaryRegistry {
 
@@ -186,6 +197,52 @@ public class DiaryRegistry {
   }
 
   /**
+   * Searches for diary entries within a date range (inclusive).
+   *
+   * @param startDate The start date of the range (inclusive).
+   * @param endDate   The end date of the range (inclusive).
+   * @return A list of entries within the specified date range.
+   * @throws IllegalArgumentException If startDate or endDate is null, or if endDate is before
+   *                                  startDate.
+   */
+  public List<DiaryEntry> findEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
+    if (startDate == null) {
+      throw new IllegalArgumentException("Start date cannot be null");
+    }
+    if (endDate == null) {
+      throw new IllegalArgumentException("End date cannot be null");
+    }
+    if (endDate.isBefore(startDate)) {
+      throw new IllegalArgumentException("End date cannot be before start date");
+    }
+
+    return entries.stream()
+        .filter(entry -> {
+          LocalDate entryDate = entry.getTimestamp().toLocalDate();
+          return !entryDate.isBefore(startDate) && !entryDate.isAfter(endDate);
+        })
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Searches for entries containing a specific keyword in the title or content.
+   *
+   * @param keyword The keyword to search for.
+   * @return A list of entries containing the keyword in title or content.
+   * @throws IllegalArgumentException If keyword is null or empty.
+   */
+  public List<DiaryEntry> findEntriesByKeyword(String keyword) {
+    if (keyword == null || keyword.trim().isEmpty()) {
+      throw new IllegalArgumentException("Keyword cannot be null or empty");
+    }
+    String searchKeyword = keyword.trim().toLowerCase();
+    return entries.stream().filter(entry ->
+            entry.getTitle().toLowerCase().contains(searchKeyword)
+                || entry.getContent().toLowerCase().contains(searchKeyword))
+        .collect(Collectors.toList());
+  }
+
+  /**
    * Deletes a diary entry by its ID.
    *
    * @param id The ID of the entry to delete.
@@ -207,6 +264,17 @@ public class DiaryRegistry {
   public List<DiaryEntry> getAllEntriesSortedDescending() {
     return entries.stream()
         .sorted(Comparator.comparing(DiaryEntry::getTimestamp).reversed())
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns all diary entries sorted by oldest entries first.
+   *
+   * @return A sorted list of all diary entries (ascending order).
+   */
+  public List<DiaryEntry> getAllEntriesSortedAscending() {
+    return entries.stream()
+        .sorted(Comparator.comparing(DiaryEntry::getTimestamp))
         .collect(Collectors.toList());
   }
 

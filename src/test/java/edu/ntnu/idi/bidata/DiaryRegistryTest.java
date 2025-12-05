@@ -33,7 +33,6 @@ class DiaryRegistryTest {
     author = new Author(1, "Test Author");
   }
 
-
   @Test
   void testCreateEmptyRegistry() {
 
@@ -130,10 +129,10 @@ class DiaryRegistryTest {
 
   @Test
   void testFindEntriesByDate() {
-    LocalDate date = LocalDate.of(2024, 12, 4);
+    LocalDate date = LocalDate.of(2025, 12, 4);
     LocalDateTime timestamp1 = date.atTime(10, 0);
     LocalDateTime timestamp2 = date.atTime(15, 0);
-    LocalDateTime timestamp3 = LocalDate.of(2024, 12, 5).atTime(10, 0);
+    LocalDateTime timestamp3 = LocalDate.of(2025, 12, 5).atTime(10, 0);
 
     registry.createStandardEntry(author, timestamp1, "Title 1", "Content 1", "Category");
     registry.createStandardEntry(author, timestamp2, "Title 2", "Content 2", "Category");
@@ -204,9 +203,9 @@ class DiaryRegistryTest {
 
   @Test
   void testGetAllEntriesSortedDescending() {
-    LocalDateTime time1 = LocalDateTime.of(2024, 12, 1, 10, 0);
-    LocalDateTime time2 = LocalDateTime.of(2024, 12, 3, 10, 0);
-    LocalDateTime time3 = LocalDateTime.of(2024, 12, 2, 10, 0);
+    LocalDateTime time1 = LocalDateTime.of(2025, 12, 1, 10, 0);
+    LocalDateTime time2 = LocalDateTime.of(2025, 12, 3, 10, 0);
+    LocalDateTime time3 = LocalDateTime.of(2025, 12, 2, 10, 0);
 
     registry.createStandardEntry(author, time1, "First", "Content 1", "Category");
     registry.createStandardEntry(author, time2, "Third", "Content 2", "Category");
@@ -232,17 +231,118 @@ class DiaryRegistryTest {
   }
 
   @Test
-  void testIsEmpty() {
-    assertTrue(registry.isEmpty());
+  void testFindEntriesByDateRange() {
+    LocalDate startDate = LocalDate.of(2025, 12, 1);
+    LocalDate endDate = LocalDate.of(2025, 12, 5);
 
-    registry.createStandardEntry(author, LocalDateTime.now(), "Title", "Content", "Category");
+    registry.createStandardEntry(author, LocalDate.of(2025, 11, 30).atTime(10, 0),
+        "Before range", "Content", "Category");
+    registry.createStandardEntry(author, LocalDate.of(2025, 12, 2).atTime(10, 0),
+        "In range 1", "Content", "Category");
+    registry.createStandardEntry(author, LocalDate.of(2025, 12, 4).atTime(10, 0),
+        "In range 2", "Content", "Category");
+    registry.createStandardEntry(author, LocalDate.of(2025, 12, 6).atTime(10, 0),
+        "After range", "Content", "Category");
 
-    assertFalse(registry.isEmpty());
+    List<DiaryEntry> entries = registry.findEntriesByDateRange(startDate, endDate);
+
+    assertEquals(2, entries.size());
+    assertTrue(entries.stream().allMatch(e ->
+        !e.getTimestamp().toLocalDate().isBefore(startDate)
+            && !e.getTimestamp().toLocalDate().isAfter(endDate)));
+  }
+
+  @Test
+  void testFindEntriesByKeyword() {
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Title with keyword", "Content has fishing details", "Category");
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Another title", "This is about fishing trip", "Category");
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Different", "No match here", "Category");
+
+    List<DiaryEntry> entries = registry.findEntriesByKeyword("fishing");
+
+    assertEquals(2, entries.size());
+  }
+
+  @Test
+  void testFindEntriesByKeywordNullKeyword() {
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(null)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordEmptyKeyword() {
+    String keyword = "";
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(keyword)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordWhitespaceKeyword() {
+    String keyword = "   ";
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByKeyword(keyword)
+    );
+    assertEquals("Keyword cannot be null or empty", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByKeywordNoMatches() {
+    registry.createStandardEntry(author, LocalDateTime.now(),
+        "Title", "Content", "Category");
+
+    List<DiaryEntry> entries = registry.findEntriesByKeyword("nonexistent");
+
+    assertTrue(entries.isEmpty());
+  }
+
+  @Test
+  void testFindEntriesByDateRangeNullStartDate() {
+    LocalDate endDate = LocalDate.of(2025, 12, 5);
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByDateRange(null, endDate)
+    );
+    assertEquals("Start date cannot be null", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByDateRangeNullEndDate() {
+    LocalDate startDate = LocalDate.of(2025, 12, 1);
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByDateRange(startDate, null)
+    );
+    assertEquals("End date cannot be null", exception.getMessage());
+  }
+
+  @Test
+  void testFindEntriesByDateRangeEndBeforeStart() {
+    LocalDate startDate = LocalDate.of(2025, 12, 5);
+    LocalDate endDate = LocalDate.of(2025, 12, 1);
+
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> registry.findEntriesByDateRange(startDate, endDate)
+    );
+    assertEquals("End date cannot be before start date", exception.getMessage());
   }
 
   @Test
   void testAddNullEntry() {
-
     IllegalArgumentException exception = assertThrows(
         IllegalArgumentException.class,
         () -> registry.addEntry(null)
@@ -271,8 +371,8 @@ class DiaryRegistryTest {
 
   @Test
   void testFindEntriesByDateNoMatches() {
-    LocalDate date = LocalDate.of(2024, 12, 4);
-    registry.createStandardEntry(author, LocalDate.of(2024, 12, 5).atTime(10, 0),
+    LocalDate date = LocalDate.of(2025, 12, 4);
+    registry.createStandardEntry(author, LocalDate.of(2025, 12, 5).atTime(10, 0),
         "Title", "Content", "Category");
 
     List<DiaryEntry> entries = registry.findEntriesByDate(date);
@@ -374,7 +474,6 @@ class DiaryRegistryTest {
 
   @Test
   void testGetAllEntriesSortedDescendingEmptyRegistry() {
-
     List<DiaryEntry> entries = registry.getAllEntriesSortedDescending();
 
     assertNotNull(entries);
