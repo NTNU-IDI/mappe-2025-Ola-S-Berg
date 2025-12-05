@@ -8,6 +8,16 @@ import java.time.LocalDateTime;
  *
  * <p>Represents a fishing diary entry with specific fields for fishing-related information.
  * Extends DiaryEntry with additional fields for weather, fish caught, location, and bait used.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Track fishing-specific details beyond basic diary information</li>
+ *   <li>Store and validate weather conditions during the fishing session</li>
+ *   <li>Record species and quantity of fish caught</li>
+ *   <li>Document the fishing location</li>
+ *   <li>Track bait or lure used for future reference</li>
+ *   <li>Allow modification of fishing-specific fields after creation</li>
+ * </ul>
  */
 public class FishingEntry extends DiaryEntry {
 

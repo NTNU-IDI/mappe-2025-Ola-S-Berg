@@ -14,6 +14,17 @@ import java.util.stream.Collectors;
  * <p>Registry for managing a collection of diary entries. This class is responsible for sorting,
  * retrieving, and managing diary entries in the system. Supports multiple entry types including
  * StandardEntry, FishingEntry, and GymEntry.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Manage a collection of all diary entries in the application</li>
+ *   <li>Generate unique IDs for new entries</li>
+ *   <li>Create entries of different types (Standard, Fishing, Gym)</li>
+ *   <li>Search for entries by date, date range, keyword, category or type</li>
+ *   <li>Retrieve entries sorted by timestamp (newest/oldest first)</li>
+ *   <li>Delete entries by ID</li>
+ *   <li>Provide statistics about the entry collection</li>
+ * </ul>
  */
 public class DiaryRegistry {
 

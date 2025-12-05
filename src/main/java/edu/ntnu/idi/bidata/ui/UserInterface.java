@@ -48,7 +48,7 @@ public class UserInterface {
   }
 
   /**
-   * Adds sample diary entries for testing purposes. Comment out for release.
+   * Adds sample diary entries for testing purposes. Can be commented out if necessary.
    */
   private void addSampleData() {
     Author ola = authorRegistry.createAndAddAuthor("Ola Nordmann");

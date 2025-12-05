@@ -7,7 +7,19 @@ import java.util.List;
 /**
  * <h1>Author Registry.</h1>
  *
- * <p>Registry for managing a collection of authors.</p>
+ * <p>Registry for managing a collection of authors. Supports creating, storing, retrieving,
+ * searching and deleting of  authors in the system.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Manage a collection of all authors in the application</li>
+ *   <li>Generate unique IDs for new authors</li>
+ *   <li>Create and add new authors to the registry</li>
+ *   <li>Retrieve authors by name</li>
+ *   <li>Delete authors by ID</li>
+ *   <li>Provide a list of all registered authors</li>
+ *   <li>Prevent duplicate author IDs</li>
+ * </ul>
  */
 public class AuthorRegistry {
 

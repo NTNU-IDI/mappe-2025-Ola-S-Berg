@@ -3,7 +3,17 @@ package edu.ntnu.idi.bidata.author;
 /**
  * <h1>Author.</h1>
  *
- * <p>Represents an author who writes diary entries.</p>
+ * <p>Represents an author who writes diary entries. This is an immutable record that stores
+ * author identification and name information.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Store author identification (ID)</li>
+ *   <li>Store author name with validation</li>
+ *   <li>Ensure immutability of author data</li>
+ *   <li>Validate author name length and format</li>
+ *   <li>Provide a string representation for display</li>
+ * </ul>
  */
 public record Author(int id, String name) {
 

@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
  * <h1>Standard Entry.</h1>
  *
  * <p>Represents a standard free-text diary entry without any specific template fields.
- * This is the default entry type for general diary entries.</p>
+ * This is the default entry type for general diary entries that don't require specialized tracking
+ * fields.</p>
  */
 public class StandardEntry extends DiaryEntry {
 
