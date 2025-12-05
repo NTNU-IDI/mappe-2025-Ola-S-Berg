@@ -1,19 +1,14 @@
 package edu.ntnu.idi.bidata;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+import edu.ntnu.idi.bidata.ui.UserInterface;
 
 /**
  * <h1>Application.</h1>
  *
- * <p>This class represents the main application and user interface for the diary system.
- * Initializes the system and handles the functionality of the system.</p>
+ * <p>Main entry point for the diary application. This class is responsible only for
+ * starting the application by initializing and launching the user interface.</p>
  */
 public class Application {
-
-  private DiaryRegistry diaryRegistry;
-  private AuthorRegistry authorRegistry;
 
   /**
    * The main entry point of the application.
@@ -21,185 +16,8 @@ public class Application {
    * @param args The command line arguments.
    */
   public static void main(String[] args) {
-    Application app = new Application();
-
-    app.init();
-    app.start();
-  }
-
-  /**
-   * Initializes the application by creating instances of the registry classes.
-   */
-  public void init() {
-    System.out.println("INITIALIZING DIARY APPLICATION");
-
-    diaryRegistry = new DiaryRegistry();
-    authorRegistry = new AuthorRegistry();
-  }
-
-  /**
-   * Starts the application and runs functionality.
-   */
-  public void start() {
-    System.out.println("STARTING DIARY APPLICATION");
-    System.out.println("CREATING AUTHORS");
-
-    Author author1 = authorRegistry.createAndAddAuthor("Ola Nordmann");
-    Author author2 = authorRegistry.createAndAddAuthor("Kari Nordmann");
-    Author author3 = authorRegistry.createAndAddAuthor("Thoralf Nordmann");
-
-    System.out.println("Created " + authorRegistry.getAllAuthors().size() + " authors");
-    printAllAuthors();
-
-    DiaryEntry entry1 = diaryRegistry.createAndAddEntry(author1,
-        LocalDateTime.now(),
-        "My first lecture",
-        "Today i attended my first lecture in Trondheim",
-        "Studies");
-
-    DiaryEntry entry2 = diaryRegistry.createAndAddEntry(author2,
-        LocalDateTime.now().minusDays(1),
-        "Walk in the park",
-        "Took a walk in the park today, the weather was great!",
-        "leisure");
-
-    DiaryEntry entry3 = diaryRegistry.createAndAddEntry(author3,
-        LocalDateTime.now().minusDays(2),
-        "Great workout today",
-        "Had a great workout today at the gym. Chest day.",
-        "Gym");
-
-    DiaryEntry entry4 = diaryRegistry.createAndAddEntry(author3,
-        LocalDateTime.now().minusDays(3),
-        "Awful workout today",
-        "Today's legs workout was just awful, hope tomorrow's chest workout goes better.",
-        "Gym");
-
-    System.out.println("Created " + diaryRegistry.getNumberOfEntries() + " entries");
-
-    testDiaryFunctionality();
-    testAuthorFunctionality();
-  }
-
-  /**
-   * Tests diary registry functionality.
-   */
-  private void testDiaryFunctionality() {
-    System.out.println("TESTING DIARY FUNCTIONALITY");
-    System.out.println("\nAll Diary entries (Sorted by newest first)");
-
-    printAllEntries(diaryRegistry.getAllEntriesSortedDescending());
-
-    System.out.println("\nEntries from today:");
-    List<DiaryEntry> todayEntries = diaryRegistry.findEntriesByDate(LocalDate.now());
-    if (todayEntries.isEmpty()) {
-      System.out.println("No diary entries found for today");
-    } else {
-      printAllEntries(todayEntries);
-    }
-
-    System.out.println("\nSearching for entries made by Kari Nordmann");
-    Author kari = authorRegistry.findAuthorByExactName("Kari Nordmann");
-    if (kari != null) {
-      List<DiaryEntry> kariEntries = diaryRegistry
-          .getAllEntriesSortedDescending().stream().filter(entry ->
-              entry.getAuthor().getId() == kari.getId()).toList();
-      printAllEntries(kariEntries);
-    }
-
-    System.out.println("\nSearching for entries in category 'Gym'");
-    List<DiaryEntry> gymEntries = diaryRegistry.findEntriesByCategory("Gym");
-    printAllEntries(gymEntries);
-
-    System.out.println("\nTotal diary entries: " + diaryRegistry.getNumberOfEntries());
-  }
-
-  /**
-   * Tests author functionality.
-   */
-  private void testAuthorFunctionality() {
-    System.out.println("TESTING AUTHOR FUNCTIONALITY");
-
-    System.out.println("\nFinding author by name 'Ola'");
-    List<Author> olaAuthors = authorRegistry.findAuthorByName("Ola");
-    for (Author author : olaAuthors) {
-      System.out.println("Found: " + author);
-    }
-
-    System.out.println("\nFinding author with ID '3'");
-    Author author3 = authorRegistry.findAuthorById(3);
-    System.out.println("Found: " + author3);
-
-    System.out.println("\nTotal authors: " + authorRegistry.getAllAuthors().size());
-  }
-
-  /**
-   * Prints a list of all authors in the author registry.
-   */
-  private void printAllAuthors() {
-    List<Author> authors = authorRegistry.getAllAuthors();
-    for (Author author : authors) {
-      System.out.println(author);
-    }
-  }
-
-  /**
-   * Prints all diary entries in the list.
-   *
-   * @param entries The list of entries to print.
-   */
-  private void printAllEntries(List<DiaryEntry> entries) {
-    if (entries.isEmpty()) {
-      System.out.println("No diary entries");
-      return;
-    }
-
-    for (DiaryEntry entry : entries) {
-      printEntry(entry);
-      System.out.println();
-    }
-  }
-
-  /**
-   * Prints a single diary entry with formatting.
-   *
-   * @param entry The entry to print.
-   */
-  private void printEntry(DiaryEntry entry) {
-    System.out.println("┌" + "─".repeat(70) + "┐");
-    System.out.println("│ ID: " + entry.getId()
-        + " │ Category: " + entry.getCategory());
-    System.out.println("│ Title: " + entry.getTitle());
-    System.out.println("│ Author: " + entry.getAuthor().getName()
-        + " │ Date: " + entry.getFormattedTimestamp());
-    System.out.println("├" + "─".repeat(70) + "┤");
-
-    String content = entry.getContent();
-    int maxLineLength = 68;
-    String[] words = content.split(" ");
-    StringBuilder line = new StringBuilder("│ ");
-
-    for (String word : words) {
-      if (line.length() + word.length() + 1 > maxLineLength) {
-        while (line.length() < maxLineLength + 2) {
-          line.append(" ");
-        }
-        line.append(" │");
-        System.out.println(line);
-        line = new StringBuilder("│ " + word + " ");
-      } else {
-        line.append(word).append(" ");
-      }
-    }
-
-    if (line.length() > 2) {
-      while (line.length() < maxLineLength + 2) {
-        line.append(" ");
-      }
-      line.append(" │");
-      System.out.println(line);
-    }
-
-    System.out.println("└" + "─".repeat(70) + "┘");
+    UserInterface ui = new UserInterface();
+    ui.init();
+    ui.start();
   }
 }
