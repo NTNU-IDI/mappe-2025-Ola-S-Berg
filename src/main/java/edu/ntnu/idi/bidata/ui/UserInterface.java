@@ -325,6 +325,17 @@ public class UserInterface {
     }
 
     System.out.println("Total entries: " + entries.size());
+
+    System.out.println("\nSort by:");
+    System.out.println("1. Newest first (descending)");
+    System.out.println("2. Oldest first (ascending)");
+
+    int sortChoice = inputReader.readInt("\nEnter your choice (1-2): ");
+
+    if (sortChoice == 2) {
+      entries = diaryRegistry.getAllEntriesSortedAscending();
+    }
+
     System.out.println();
 
     for (DiaryEntry entry : entries) {

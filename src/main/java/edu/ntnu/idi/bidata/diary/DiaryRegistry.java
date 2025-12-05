@@ -257,6 +257,17 @@ public class DiaryRegistry {
   }
 
   /**
+   * Returns all diary entries sorted by oldest entries first.
+   *
+   * @return A sorted list of all diary entries (ascending order).
+   */
+  public List<DiaryEntry> getAllEntriesSortedAscending() {
+    return entries.stream()
+        .sorted(Comparator.comparing(DiaryEntry::getTimestamp))
+        .collect(Collectors.toList());
+  }
+
+  /**
    * Gets the total number of entries in the registry.
    *
    * @return The number of entries.
