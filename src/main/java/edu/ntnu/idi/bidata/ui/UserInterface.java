@@ -368,7 +368,7 @@ public class UserInterface {
   }
 
   /**
-   * Prints an entry with basic formatting.
+   * Prints an entry with basic formatting. Used by standard entries and fishing entries.
    *
    * @param entry The entry to print.
    */
@@ -551,9 +551,10 @@ public class UserInterface {
     System.out.println("\nSEARCH ENTRIES");
     System.out.println("1. Search by date");
     System.out.println("2. Search by date range");
-    System.out.println("3. Search by category");
-    System.out.println("4. Search by author");
-    System.out.println("5. Search by entry type");
+    System.out.println("3. Search by keyword");
+    System.out.println("4. Search by category");
+    System.out.println("5. Search by author");
+    System.out.println("6. Search by entry type");
     System.out.println("0. Back to main menu");
 
     int choice = getIntInput("\nEnter your choice: ");
@@ -561,9 +562,10 @@ public class UserInterface {
     switch (choice) {
       case 1 -> searchByDate();
       case 2 -> searchByDateRange();
-      case 3 -> searchByCategory();
-      case 4 -> searchByAuthor();
-      case 5 -> searchByEntryType();
+      case 3 -> searchByKeyword();
+      case 4 -> searchByCategory();
+      case 5 -> searchByAuthor();
+      case 6 -> searchByEntryType();
       case 0 -> {
       }
       default -> System.out.println("Invalid choice.");
@@ -622,6 +624,30 @@ public class UserInterface {
       } else {
         System.out.println("\nEntries from " + startDate.format(formatter)
             + " to " + endDate.format(formatter) + ":");
+        for (DiaryEntry entry : entries) {
+          printEntry(entry);
+          System.out.println();
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("Invalid date format. Please use dd.MM.yyyy");
+    }
+  }
+
+  /**
+   * Searches for entries containing a specific keyword.
+   */
+  private void searchByKeyword() {
+    System.out.println("\nEnter keyword to search for: ");
+    String keyword = scanner.nextLine().trim();
+
+    try {
+      List<DiaryEntry> entries = diaryRegistry.findEntriesByKeyword(keyword);
+
+      if (entries.isEmpty()) {
+        System.out.println("No entries found with keyword: " + keyword);
+      } else {
+        System.out.println("\nEntries containing '" + keyword + "':");
         for (DiaryEntry entry : entries) {
           printEntry(entry);
           System.out.println();

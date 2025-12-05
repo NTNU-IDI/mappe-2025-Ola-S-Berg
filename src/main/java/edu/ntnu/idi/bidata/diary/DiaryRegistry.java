@@ -214,6 +214,24 @@ public class DiaryRegistry {
   }
 
   /**
+   * Searches for entries containing a specific keyword in the title or content.
+   *
+   * @param keyword The keyword to search for.
+   * @return A list of entries containing the keyword in title or content.
+   * @throws IllegalArgumentException If keyword is null or empty.
+   */
+  public List<DiaryEntry> findEntriesByKeyword(String keyword) {
+    if (keyword == null || keyword.trim().isEmpty()) {
+      throw new IllegalArgumentException("Keyword cannot be null or empty");
+    }
+    String searchKeyword = keyword.trim().toLowerCase();
+    return entries.stream().filter(entry ->
+            entry.getTitle().toLowerCase().contains(searchKeyword)
+                || entry.getContent().toLowerCase().contains(searchKeyword))
+        .collect(Collectors.toList());
+  }
+
+  /**
    * Deletes a diary entry by its ID.
    *
    * @param id The ID of the entry to delete.
