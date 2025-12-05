@@ -3,7 +3,7 @@ Diary is an application that lets you create and manage diary entries.
 The application is developed as a student project at the Norwegian University of Science and Technology (NTNU).
 
 ## Features
-In the latest v1.0.0 release, the following core functionalities are implemented:
+Since the latest v1.1.0 release, the following core functionalities are implemented:
 - Template functionality
   - Standard entry template
     - A standard diary entry with no special fields, great for everyday use
