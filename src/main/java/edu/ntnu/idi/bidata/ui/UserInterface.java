@@ -85,7 +85,8 @@ public class UserInterface {
         kari,
         LocalDateTime.of(2025, 11, 25, 7, 30),
         "River Fishing Adventure",
-        "Tried a new spot on the river today.",
+        "Tried a new spot on the river today. The current was really strong, i almost lost"
+            + " my footing several times.",
         "Outdoor",
         "Sunny, 20°C, moderate wind",
         "Trout (4), Cod (1)",
@@ -420,12 +421,18 @@ public class UserInterface {
    */
   private void formatWrapper(DiaryEntry entry) {
     System.out.println("┌" + "─".repeat(70) + "┐");
-    System.out.println("│ ID: " + entry.getId()
+
+    String line1 = "│ ID: " + entry.getId()
         + " │ Type: " + entry.getEntryType()
-        + " │ Category: " + entry.getCategory());
-    System.out.println("│ Title: " + entry.getTitle());
-    System.out.println("│ Author: " + entry.getAuthor().name()
-        + " │ Date: " + entry.getFormattedTimestamp());
+        + " │ Category: " + entry.getCategory();
+    System.out.println(line1 + " ".repeat(71 - line1.length()) + "│");
+
+    String line2 = "│ Title: " + entry.getTitle();
+    System.out.println(line2 + " ".repeat(71 - line2.length()) + "│");
+
+    String line3 = "│ Author: " + entry.getAuthor().name()
+        + " │ Date: " + entry.getFormattedTimestamp();
+    System.out.println(line3 + " ".repeat(71 - line3.length()) + "│");
   }
 
   /**
