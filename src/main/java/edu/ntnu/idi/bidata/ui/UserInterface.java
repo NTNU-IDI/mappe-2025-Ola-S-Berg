@@ -555,7 +555,23 @@ public class UserInterface {
     } else if (entry instanceof FishingEntry) {
       editFishingEntry((FishingEntry) entry);
     } else {
-      System.out.println("\nStandard entries cannot be edited.");
+      editStandardEntry(entry);
+    }
+  }
+
+  private void editStandardEntry(DiaryEntry entry) {
+    System.out.println("\nEDIT STANDARD ENTRY");
+
+    String newContent = inputReader.readString("\nEnter new content: ");
+
+    try {
+      entry.setContent(newContent);
+      System.out.println("Content updated");
+
+      System.out.println("\nUpdated entry:");
+      entryFormatter.printEntry(entry);
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error updating entry: " + e.getMessage());
     }
   }
 
@@ -567,7 +583,8 @@ public class UserInterface {
     System.out.println("1. Exercises");
     System.out.println("2. Sets");
     System.out.println("3. Repetitions");
-    System.out.println("4. Edit all fields");
+    System.out.println("4. Notes");
+    System.out.println("5. Edit all fields");
     System.out.println("0. Cancel");
 
     int choice = inputReader.readInt("\nEnter your choice: ");
@@ -591,6 +608,11 @@ public class UserInterface {
           System.out.println("Repetitions updated");
         }
         case 4 -> {
+          String content = inputReader.readString("Enter new notes: ");
+          entry.setContent(content);
+          System.out.println("Content updated");
+        }
+        case 5 -> {
           entry.setExercises(inputReader.readString("Enter new exercises (comma-separated): "));
           entry.setSets(inputReader.readString("Enter new sets (comma-separated): "));
           entry.setReps(
@@ -624,7 +646,8 @@ public class UserInterface {
     System.out.println("2. Fish caught");
     System.out.println("3. Location");
     System.out.println("4. Bait used");
-    System.out.println("5. Edit all fields");
+    System.out.println("5. Content");
+    System.out.println("6. Edit all fields");
     System.out.println("0. Cancel");
 
     int choice = inputReader.readInt("\nEnter your choice: ");
@@ -652,6 +675,11 @@ public class UserInterface {
           System.out.println("Bait used updated");
         }
         case 5 -> {
+          String content = inputReader.readString("Enter new content: ");
+          entry.setContent(content);
+          System.out.println("Content updated");
+        }
+        case 6 -> {
           entry.setWeather(inputReader.readString("Enter new weather conditions: "));
           entry.setFishCaught(inputReader.readString("Enter new fish caught: "));
           entry.setLocation(inputReader.readString("Enter new location: "));

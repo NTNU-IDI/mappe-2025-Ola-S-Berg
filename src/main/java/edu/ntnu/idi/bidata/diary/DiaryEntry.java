@@ -26,8 +26,8 @@ public abstract class DiaryEntry {
   private final Author author;
   private final LocalDateTime timestamp;
   private final String title;
-  private final String content;
   private final String category;
+  private String content;
 
   /**
    * Constructs a new diary entry.
@@ -183,6 +183,15 @@ public abstract class DiaryEntry {
    */
   public String getContent() {
     return content;
+  }
+
+  /**
+   * Sets the content of this diary entry.
+   *
+   * @param content The content to set.
+   */
+  public void setContent(String content) {
+    this.content = content;
   }
 
   /**
