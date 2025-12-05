@@ -363,23 +363,24 @@ public class UserInterface {
     if (entry instanceof GymEntry) {
       printGymEntry((GymEntry) entry);
     } else {
-      printStandardEntry(entry);
+      printEntryBasicFormatting(entry);
     }
   }
 
   /**
-   * Prints a standard or fishing diary entry with standard formatting.
+   * Prints an entry with basic formatting.
    *
    * @param entry The entry to print.
    */
-  private void printStandardEntry(DiaryEntry entry) {
+  private void printEntryBasicFormatting(DiaryEntry entry) {
     formatWrapper(entry);
 
     Map<String, String> templateFields = entry.getTemplateFields();
     if (!templateFields.isEmpty()) {
       System.out.println("├" + "─".repeat(70) + "┤");
       for (Map.Entry<String, String> field : templateFields.entrySet()) {
-        System.out.println("│ " + field.getKey() + ": " + field.getValue());
+        String fieldLine = "│ " + field.getKey() + ": " + field.getValue();
+        System.out.println(fieldLine + " ".repeat(71 - fieldLine.length()) + "│");
       }
     }
 
