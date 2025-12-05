@@ -1,0 +1,234 @@
+package edu.ntnu.idi.bidata.ui;
+
+import edu.ntnu.idi.bidata.diary.DiaryEntry;
+import edu.ntnu.idi.bidata.diary.GymEntry;
+import java.util.Map;
+
+/**
+ * <h1>Entry Formatter.</h1>
+ *
+ * <p>Formats diary entries for display to the user. Creates specialized formatting for different
+ * entry types. Uses Unicode box-drawing characters to create the borders.</p>
+ *
+ * <p>Responsibilities:</p>
+ * <ul>
+ *   <li>Format and display standard diary entries with basic information</li>
+ *   <li>Format and display fishing entries with template-specific fields</li>
+ *   <li>Format and display gym entries with workout tables</li>
+ *   <li>Handle text wrapping and alignment within bordered boxes</li>
+ * </ul>
+ */
+public class EntryFormatter {
+
+  /**
+   * Prints a diary entry with appropriate formatting.
+   *
+   * @param entry The entry to print.
+   */
+  public void printEntry(DiaryEntry entry) {
+    if (entry instanceof GymEntry) {
+      printGymEntry((GymEntry) entry);
+    } else {
+      printStandardEntry(entry);
+    }
+  }
+
+  /**
+   * Prints a standard or fishing entry with basic formatting.
+   *
+   * @param entry The entry to print.
+   */
+  private void printStandardEntry(DiaryEntry entry) {
+    printHeader(entry);
+
+    Map<String, String> templateFields = entry.getTemplateFields();
+    if (!templateFields.isEmpty()) {
+      System.out.println("├" + "─".repeat(70) + "┤");
+      for (Map.Entry<String, String> field : templateFields.entrySet()) {
+        String fieldLine = "│ " + field.getKey() + ": " + field.getValue();
+        System.out.println(fieldLine + " ".repeat(71 - fieldLine.length()) + "│");
+      }
+    }
+
+    System.out.println("├" + "─".repeat(70) + "┤");
+    printWrappedContent(entry.getContent());
+    System.out.println("└" + "─".repeat(70) + "┘");
+  }
+
+  /**
+   * Prints the header section of an entry.
+   *
+   * @param entry The entry.
+   */
+  private void printHeader(DiaryEntry entry) {
+    System.out.println("┌" + "─".repeat(70) + "┐");
+
+    String line1 = "│ ID: " + entry.getId()
+        + " │ Type: " + entry.getEntryType()
+        + " │ Category: " + entry.getCategory();
+    System.out.println(line1 + " ".repeat(71 - line1.length()) + "│");
+
+    String line2 = "│ Title: " + entry.getTitle();
+    System.out.println(line2 + " ".repeat(71 - line2.length()) + "│");
+
+    String line3 = "│ Author: " + entry.getAuthor().name()
+        + " │ Date: " + entry.getFormattedTimestamp();
+    System.out.println(line3 + " ".repeat(71 - line3.length()) + "│");
+  }
+
+  /**
+   * Prints content with word wrapping.
+   *
+   * @param content The content to print.
+   */
+  private void printWrappedContent(String content) {
+    String[] words = content.split(" ");
+    StringBuilder line = new StringBuilder("│ ");
+
+    for (String word : words) {
+      if (line.length() + word.length() + 1 > 68) {
+        while (line.length() < 68 + 2) {
+          line.append(" ");
+        }
+        line.append(" │");
+        System.out.println(line);
+        line = new StringBuilder("│ " + word + " ");
+      } else {
+        line.append(word).append(" ");
+      }
+    }
+
+    if (line.length() > 2) {
+      while (line.length() < 68 + 2) {
+        line.append(" ");
+      }
+      line.append(" │");
+      System.out.println(line);
+    }
+  }
+
+  /**
+   * Prints a gym entry with table formatting.
+   *
+   * @param entry The gym entry to print.
+   */
+  private void printGymEntry(GymEntry entry) {
+    printHeader(entry);
+    System.out.println("├" + "─".repeat(70) + "┤");
+
+    String content = entry.getContent();
+    if (!content.isEmpty()) {
+      printGymNotes(content);
+    }
+
+    printWorkoutTable(entry);
+  }
+
+  /**
+   * Prints the notes section of a gym entry.
+   *
+   * @param content The notes content.
+   */
+  private void printGymNotes(String content) {
+    int maxLineLength = 62;
+    String[] words = content.split(" ");
+    StringBuilder line = new StringBuilder("│ Notes: ");
+
+    boolean firstLine = true;
+    for (String word : words) {
+      int currentPrefix = firstLine ? 8 : 2;
+      int availableSpace = maxLineLength + currentPrefix;
+
+      if (line.length() + word.length() + 1 > availableSpace) {
+        while (line.length() < availableSpace) {
+          line.append(" ");
+        }
+        line.append(" │");
+        System.out.println(line);
+        line = new StringBuilder("│ " + word + " ");
+        firstLine = false;
+      } else {
+        line.append(word).append(" ");
+      }
+    }
+
+    if (line.length() > 2) {
+      int currentPrefix = firstLine ? 8 : 2;
+      int availableSpace = maxLineLength + currentPrefix + 6;
+      while (line.length() < availableSpace) {
+        line.append(" ");
+      }
+      line.append(" │");
+      System.out.println(line);
+    }
+  }
+
+  /**
+   * Prints the workout table for a gym entry.
+   *
+   * @param entry The gym entry.
+   */
+  private void printWorkoutTable(GymEntry entry) {
+    System.out.println("│" + padCenter("WORKOUT SUMMARY", 70) + "│");
+    System.out.println("├" + "─".repeat(70) + "┤");
+    System.out.println(
+        "│" + padCenter("Exercise", 30) + "│"
+            + padCenter("Repetitions and Weight", 39) + "│");
+
+    System.out.println("├" + "─".repeat(30) + "┼" + "─".repeat(39) + "┤");
+
+    String[] exercises = entry.getExercises().split(",");
+    String[] repsData = entry.getReps().split(",");
+
+    for (int i = 0; i < exercises.length; i++) {
+      String exercise = exercises[i].trim();
+      String repsInfo = i < repsData.length ? repsData[i].trim() : "N/A";
+
+      String[] sets = repsInfo.split(";");
+
+      System.out.println("│ " + padRight(exercise, 28)
+          + " │ " + padRight(sets[0], 37) + " │");
+
+      for (int j = 1; j < sets.length; j++) {
+        System.out.println("│ " + padRight("", 28) + " │ "
+            + padRight(sets[j].trim(), 37) + " │");
+      }
+
+      if (i < exercises.length - 1) {
+        System.out.println("├" + "─".repeat(30) + "┼" + "─".repeat(39) + "┤");
+      }
+    }
+
+    System.out.println("└" + "─".repeat(30) + "┴" + "─".repeat(39) + "┘");
+  }
+
+  /**
+   * Pads a string to the right with spaces.
+   *
+   * @param str    The string to pad.
+   * @param length The total length.
+   * @return The padded string.
+   */
+  private String padRight(String str, int length) {
+    if (str.length() >= length) {
+      return str.substring(0, length);
+    }
+    return str + " ".repeat(length - str.length());
+  }
+
+  /**
+   * Centers a string within a given length.
+   *
+   * @param str    The string to center.
+   * @param length The total length.
+   * @return The centered string.
+   */
+  private String padCenter(String str, int length) {
+    if (str.length() >= length) {
+      return str.substring(0, length);
+    }
+    int leftPad = (length - str.length()) / 2;
+    int rightPad = length - str.length() - leftPad;
+    return " ".repeat(leftPad) + str + " ".repeat(rightPad);
+  }
+}
