@@ -200,7 +200,7 @@ public abstract class DiaryEntry {
    * @param content The content to set.
    */
   public void setContent(String content) {
-    this.content = content;
+    this.content = validateContent(content);
   }
 
   /**
