@@ -186,6 +186,34 @@ public class DiaryRegistry {
   }
 
   /**
+   * Searches for diary entries within a date range (inclusive).
+   *
+   * @param startDate The start date of the range (inclusive).
+   * @param endDate   The end date of the range (inclusive).
+   * @return A list of entries within the specified date range.
+   * @throws IllegalArgumentException If startDate or endDate is null, or if endDate is before
+   *                                  startDate.
+   */
+  public List<DiaryEntry> findEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
+    if (startDate == null) {
+      throw new IllegalArgumentException("Start date cannot be null");
+    }
+    if (endDate == null) {
+      throw new IllegalArgumentException("End date cannot be null");
+    }
+    if (endDate.isBefore(startDate)) {
+      throw new IllegalArgumentException("End date cannot be before start date");
+    }
+
+    return entries.stream()
+        .filter(entry -> {
+          LocalDate entryDate = entry.getTimestamp().toLocalDate();
+          return !entryDate.isBefore(startDate) && !entryDate.isAfter(endDate);
+        })
+        .collect(Collectors.toList());
+  }
+
+  /**
    * Deletes a diary entry by its ID.
    *
    * @param id The ID of the entry to delete.

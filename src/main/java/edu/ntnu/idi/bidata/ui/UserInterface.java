@@ -5,7 +5,9 @@ import edu.ntnu.idi.bidata.author.AuthorRegistry;
 import edu.ntnu.idi.bidata.diary.DiaryEntry;
 import edu.ntnu.idi.bidata.diary.DiaryRegistry;
 import edu.ntnu.idi.bidata.diary.GymEntry;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -31,13 +33,96 @@ public class UserInterface {
     authorRegistry = new AuthorRegistry();
     scanner = new Scanner(System.in);
     running = true;
+
+    addSampleData();
+  }
+
+  /**
+   * Adds sample diary entries for testing purposes. Commented out for release.
+   */
+  private void addSampleData() {
+    Author ola = authorRegistry.createAndAddAuthor("Ola Nordmann");
+    Author kari = authorRegistry.createAndAddAuthor("Kari Nordmann");
+    Author test = authorRegistry.createAndAddAuthor("Test Author");
+
+    diaryRegistry.createStandardEntry(
+        ola,
+        LocalDateTime.of(2025, 11, 15, 9, 30),
+        "First Day of Winter",
+        "The first snow fell today. I spent the morning drinking a warm cup of coffee.",
+        "Personal"
+    );
+
+    diaryRegistry.createStandardEntry(
+        test,
+        LocalDateTime.of(2025, 11, 20, 14, 15),
+        "Busy work day",
+        "Had a very busy day at work today, feeling very tired.",
+        "Work"
+    );
+
+    diaryRegistry.createStandardEntry(
+        kari,
+        LocalDateTime.of(2025, 12, 1, 20, 0),
+        "Birthday Celebration",
+        "Celebrated my birthday with close friends and family.",
+        "Personal"
+    );
+
+    diaryRegistry.createFishingEntry(
+        ola,
+        LocalDateTime.of(2025, 11, 10, 6, 45),
+        "Early Morning at the Lake",
+        "Perfect morning for fishing. Caught several nice bass.",
+        "Outdoor",
+        "Clear, 15°C, light breeze",
+        "Bass (3), Salmon (2)",
+        "Lofoten",
+        "Plastic worm"
+    );
+
+    diaryRegistry.createFishingEntry(
+        kari,
+        LocalDateTime.of(2025, 11, 25, 7, 30),
+        "River Fishing Adventure",
+        "Tried a new spot on the river today.",
+        "Outdoor",
+        "Sunny, 20°C, moderate wind",
+        "Trout (4), Cod (1)",
+        "Orkla, Storås",
+        "Fly fishing"
+    );
+
+    diaryRegistry.createGymEntry(
+        ola,
+        LocalDateTime.of(2025, 12, 1, 17, 30),
+        "Chest and Triceps Day",
+        "Great workout today! Feeling strong and managed to increase weight on bench press.",
+        "Fitness",
+        "Bench Press, Incline Dumbbell Press, Dips",
+        "4, 3, 3",
+        "8x80kg;7x80kg;6x82.5kg;6x82.5kg, 10x25kg;10x25kg;8x27.5kg, "
+            + "12xBodyweight;10xBodyweight;8xBodyweight");
+
+    diaryRegistry.createGymEntry(
+        kari,
+        LocalDateTime.of(2025, 12, 4, 6, 0),
+        "Leg Day - Squats Focus",
+        "Early morning leg session. Squats felt heavy but pushed through.",
+        "Fitness",
+        "Squats, Leg Press, Lunges",
+        "5, 3, 3",
+        "10x100kg;8x110kg;6x120kg;5x130kg;5x130kg, 12x150kg;10x170kg;10x170kg,"
+            + " 10x20kg;10x20kg;8x22.5kg");
+
+    System.out.println("Sample data loaded");
   }
 
   /**
    * Starts the application.
    */
   public void start() {
-    System.out.println("  Welcome to Diary Application");
+    System.out.println("\nWelcome to the Diary Application");
 
     while (running) {
       displayMenu();
@@ -344,7 +429,7 @@ public class UserInterface {
   }
 
   /**
-   * Prints a gym entry with specialized Excel-like table formatting.
+   * Prints a gym entry with table formatting.
    *
    * @param entry The gym entry to print.
    */
@@ -354,8 +439,38 @@ public class UserInterface {
 
     String content = entry.getContent();
     if (!content.isEmpty()) {
-      System.out.println("│ Notes: " + content + padRight("", 70 - 8 - content.length()) + "│");
-      System.out.println("├" + "─".repeat(70) + "┤");
+      int maxLineLength = 62;
+      String[] words = content.split(" ");
+      StringBuilder line = new StringBuilder("│ Notes: ");
+
+      boolean firstLine = true;
+      for (String word : words) {
+        int currentPrefix = firstLine ? 8 : 2;
+        int availableSpace = maxLineLength + currentPrefix;
+
+        if (line.length() + word.length() + 1 > availableSpace) {
+          while (line.length() < availableSpace) {
+            line.append(" ");
+          }
+          line.append(" │");
+          System.out.println(line);
+
+          line = new StringBuilder("│ " + word + " ");
+          firstLine = false;
+        } else {
+          line.append(word).append(" ");
+        }
+      }
+
+      if (line.length() > 2) {
+        int currentPrefix = firstLine ? 8 : 2;
+        int availableSpace = maxLineLength + currentPrefix + 6;
+        while (line.length() < availableSpace) {
+          line.append(" ");
+        }
+        line.append(" │");
+        System.out.println(line);
+      }
     }
 
     String[] exercises = entry.getExercises().split(",");
@@ -364,7 +479,9 @@ public class UserInterface {
     System.out.println("│" + padCenter("WORKOUT SUMMARY", 70) + "│");
     System.out.println("├" + "─".repeat(70) + "┤");
     System.out.println(
-        "│" + padRight("Exercise", 30) + "│" + padCenter("Repetitions and Weight", 39) + "│");
+        "│" + padCenter("Exercise", 30) + "│"
+            + padCenter("Repetitions and Weight", 39) + "│");
+
     System.out.println("├" + "─".repeat(30) + "┼" + "─".repeat(39) + "┤");
 
     for (int i = 0; i < exercises.length; i++) {
@@ -373,10 +490,12 @@ public class UserInterface {
 
       String[] sets = repsInfo.split(";");
 
-      System.out.println("│ " + padRight(exercise, 28) + " │ " + padRight(sets[0], 37) + " │");
+      System.out.println("│ " + padRight(exercise, 28)
+          + " │ " + padRight(sets[0], 37) + " │");
 
       for (int j = 1; j < sets.length; j++) {
-        System.out.println("│ " + padRight("", 28) + " │ " + padRight(sets[j].trim(), 37) + " │");
+        System.out.println("│ " + padRight("", 28) + " │ "
+            + padRight(sets[j].trim(), 37) + " │");
       }
 
       if (i < exercises.length - 1) {
@@ -423,18 +542,20 @@ public class UserInterface {
   private void searchMenu() {
     System.out.println("\nSEARCH ENTRIES");
     System.out.println("1. Search by date");
-    System.out.println("2. Search by category");
-    System.out.println("3. Search by author");
-    System.out.println("4. Search by entry type");
+    System.out.println("2. Search by date range");
+    System.out.println("3. Search by category");
+    System.out.println("4. Search by author");
+    System.out.println("5. Search by entry type");
     System.out.println("0. Back to main menu");
 
     int choice = getIntInput("\nEnter your choice: ");
 
     switch (choice) {
       case 1 -> searchByDate();
-      case 2 -> searchByCategory();
-      case 3 -> searchByAuthor();
-      case 4 -> searchByEntryType();
+      case 2 -> searchByDateRange();
+      case 3 -> searchByCategory();
+      case 4 -> searchByAuthor();
+      case 5 -> searchByEntryType();
       case 0 -> {
       }
       default -> System.out.println("Invalid choice.");
@@ -471,6 +592,37 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Searches for entries in a date range.
+   */
+  private void searchByDateRange() {
+    System.out.println("\nEnter start date (format: dd.MM.yyyy): ");
+    String startDateStr = scanner.nextLine().trim();
+
+    System.out.println("\nEnter end date (format: dd.MM.yyyy): ");
+    String endDateStr = scanner.nextLine().trim();
+
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+      LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+      LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+      List<DiaryEntry> entries = diaryRegistry.findEntriesByDateRange(startDate, endDate);
+
+      if (entries.isEmpty()) {
+        System.out.println("No entries found between " + startDate + " and " + endDate);
+      } else {
+        System.out.println("\nEntries from " + startDate.format(formatter)
+            + " to " + endDate.format(formatter) + ":");
+        for (DiaryEntry entry : entries) {
+          printEntry(entry);
+          System.out.println();
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("Invalid date format. Please use dd.MM.yyyy");
+    }
+  }
 
   /**
    * Searches for entries by category.
