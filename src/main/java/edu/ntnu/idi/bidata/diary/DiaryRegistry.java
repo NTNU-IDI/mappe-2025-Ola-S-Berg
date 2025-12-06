@@ -279,7 +279,7 @@ public class DiaryRegistry {
   }
 
   /**
-   * Gets the total number of entries in the registry.
+   * Returns the total number of entries in the registry.
    *
    * @return The number of entries.
    */

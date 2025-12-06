@@ -56,7 +56,7 @@ public record Author(int id, String name) {
   }
 
   /**
-   * Gets the ID of the author.
+   * Returns the ID of the author.
    *
    * @return The author ID.
    */
@@ -66,7 +66,7 @@ public record Author(int id, String name) {
   }
 
   /**
-   * Gets the name of the author.
+   * Retrieves the name of the author.
    *
    * @return The author name.
    */
@@ -75,8 +75,13 @@ public record Author(int id, String name) {
     return name;
   }
 
+  /**
+   * Returns a string representation of the author.
+   *
+   * @return The string representation.
+   */
   @Override
   public String toString() {
-    return "Author [id=" + id + ", name=" + name + "]";
+    return "Author [id: " + id + ", name: " + name + "]";
   }
 }

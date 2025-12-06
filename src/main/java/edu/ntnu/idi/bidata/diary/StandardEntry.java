@@ -28,7 +28,7 @@ public class StandardEntry extends DiaryEntry {
   }
 
   /**
-   * Gets the entry type for this class "standard".
+   * Retrieves the entry type for this class "standard".
    *
    * @return The entry type "standard".
    */

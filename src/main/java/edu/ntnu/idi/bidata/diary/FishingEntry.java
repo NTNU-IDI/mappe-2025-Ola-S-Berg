@@ -72,7 +72,7 @@ public class FishingEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the weather for this fishing entry.
+   * Updates the weather for this fishing entry.
    *
    * @param weather The weather to set.
    */
@@ -82,7 +82,7 @@ public class FishingEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the fish caught for this fishing entry.
+   * Updates the fish caught for this fishing entry.
    *
    * @param fishCaught The fish caught.
    */
@@ -92,7 +92,7 @@ public class FishingEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the location for this fishing entry.
+   * Updates the location for this fishing entry.
    *
    * @param location The location to set.
    */
@@ -102,7 +102,7 @@ public class FishingEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the bait used for this fishing entry.
+   * Updats the bait used for this fishing entry.
    *
    * @param baitUsed The bait used.
    */
@@ -112,7 +112,7 @@ public class FishingEntry extends DiaryEntry {
   }
 
   /**
-   * Gets the entry type of this fishing entry.
+   * Returns the entry type of this fishing entry.
    *
    * @return The entry type.
    */

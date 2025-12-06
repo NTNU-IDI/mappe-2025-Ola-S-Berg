@@ -67,7 +67,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Gets the exercises for this gym entry.
+   * Returns the exercises for this gym entry.
    *
    * @return The exercise to get.
    */
@@ -76,7 +76,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the exercises for this gym entry.
+   * Updates the exercises for this gym entry.
    *
    * @param exercises The exercise to set.
    */
@@ -86,7 +86,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the sets for this gym entry.
+   * Updates the sets for this gym entry.
    *
    * @param sets The sets to set.
    */
@@ -96,7 +96,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Gets the repetitions for this gym entry.
+   * Retrieves the repetitions for this gym entry.
    *
    * @return The repetitions to get.
    */
@@ -105,7 +105,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Sets the repetitions for this gym entry.
+   * Updates the repetitions for this gym entry.
    *
    * @param reps The repetitions to set.
    */
@@ -115,7 +115,7 @@ public class GymEntry extends DiaryEntry {
   }
 
   /**
-   * Gets the entry type of this gym entry.
+   * Returns the entry type of this gym entry.
    *
    * @return The entry type.
    */
