@@ -751,6 +751,7 @@ public class UserInterface {
     }
 
     System.out.println("\nAll Authors:");
+    System.out.println("  ID,     Name");
     for (Author author : authors) {
       System.out.println("  " + author);
     }
