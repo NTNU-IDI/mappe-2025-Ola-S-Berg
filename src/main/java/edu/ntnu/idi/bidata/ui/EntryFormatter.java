@@ -82,12 +82,41 @@ public class EntryFormatter {
    * @param content The content to print.
    */
   private void printWrappedContent(String content) {
+    if (content == null || content.trim().isEmpty()) {
+      String line = "│ " + " ".repeat(68) + " │";
+      System.out.println(line);
+      return;
+    }
+
     String[] words = content.split(" ");
     StringBuilder line = new StringBuilder("│ ");
+    int maxLineLength = 68;
 
     for (String word : words) {
-      if (line.length() + word.length() + 1 > 68) {
-        while (line.length() < 68 + 2) {
+      while (word.length() > maxLineLength) {
+        if (line.length() > 2) {
+          while (line.length() < maxLineLength + 2) {
+            line.append(" ");
+          }
+          line.append(" │");
+          System.out.println(line);
+          line = new StringBuilder("│ ");
+        }
+
+        String part = word.substring(0, maxLineLength);
+        line.append(part);
+        while (line.length() < maxLineLength + 2) {
+          line.append(" ");
+        }
+        line.append(" │");
+        System.out.println(line);
+        line = new StringBuilder("│ ");
+
+        word = word.substring(maxLineLength);
+      }
+
+      if (line.length() + word.length() + 1 > maxLineLength + 2) {
+        while (line.length() < maxLineLength + 2) {
           line.append(" ");
         }
         line.append(" │");
@@ -99,7 +128,7 @@ public class EntryFormatter {
     }
 
     if (line.length() > 2) {
-      while (line.length() < 68 + 2) {
+      while (line.length() < maxLineLength + 2) {
         line.append(" ");
       }
       line.append(" │");
@@ -131,36 +160,71 @@ public class EntryFormatter {
    * @param content The notes content.
    */
   private void printGymNotes(String content) {
-    int maxLineLength = 62;
+    if (content == null || content.trim().isEmpty()) {
+      return;
+    }
+
+    int maxLineLength = 68;
+    int firstLineMaxContent = 61;
     String[] words = content.split(" ");
-    StringBuilder line = new StringBuilder("│ Notes: ");
+    StringBuilder line = new StringBuilder();
+    boolean isFirstLine = true;
 
-    boolean firstLine = true;
     for (String word : words) {
-      int currentPrefix = firstLine ? 8 : 2;
-      int availableSpace = maxLineLength + currentPrefix;
+      int currentMaxContent = isFirstLine ? firstLineMaxContent : maxLineLength;
 
-      if (line.length() + word.length() + 1 > availableSpace) {
-        while (line.length() < availableSpace) {
+      while (word.length() > currentMaxContent) {
+        if (!line.isEmpty()) {
+          printNoteLine(line.toString(), isFirstLine, maxLineLength, firstLineMaxContent);
+          line = new StringBuilder();
+          isFirstLine = false;
+          currentMaxContent = maxLineLength;
+        }
+
+        String part = word.substring(0, currentMaxContent);
+        printNoteLine(part, isFirstLine, maxLineLength, firstLineMaxContent);
+        isFirstLine = false;
+        word = word.substring(currentMaxContent);
+        currentMaxContent = maxLineLength;
+      }
+
+      int neededSpace = !line.isEmpty() ? line.length() + 1 + word.length() : word.length();
+
+      if (neededSpace > currentMaxContent) {
+        printNoteLine(line.toString(), isFirstLine, maxLineLength, firstLineMaxContent);
+        line = new StringBuilder(word);
+        isFirstLine = false;
+      } else {
+        if (!line.isEmpty()) {
           line.append(" ");
         }
-        line.append(" │");
-        System.out.println(line);
-        line = new StringBuilder("│ " + word + " ");
-        firstLine = false;
-      } else {
-        line.append(word).append(" ");
+        line.append(word);
       }
     }
 
-    if (line.length() > 2) {
-      int currentPrefix = firstLine ? 8 : 2;
-      int availableSpace = maxLineLength + currentPrefix + 6;
-      while (line.length() < availableSpace) {
-        line.append(" ");
-      }
-      line.append(" │");
-      System.out.println(line);
+    if (!line.isEmpty()) {
+      printNoteLine(line.toString(), isFirstLine, maxLineLength, firstLineMaxContent);
+    }
+  }
+
+  /**
+   * Helper method to print a single line of notes with proper formatting.
+   *
+   * @param text                The text to print on this line.
+   * @param isFirstLine         Whether this is the first line (with "Notes: " prefix).
+   * @param maxLineLength       Maximum content length for non-first lines.
+   * @param firstLineMaxContent Maximum content length for first line.
+   */
+  private void printNoteLine(String text, boolean isFirstLine, int maxLineLength,
+      int firstLineMaxContent) {
+    if (isFirstLine) {
+      System.out.print("│ Notes: ");
+      int padding = firstLineMaxContent - text.length();
+      System.out.println(text + " ".repeat(Math.max(0, padding)) + " │");
+    } else {
+      System.out.print("│ ");
+      int padding = maxLineLength - text.length();
+      System.out.println(text + " ".repeat(Math.max(0, padding)) + " │");
     }
   }
 
